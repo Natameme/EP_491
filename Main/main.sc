@@ -7,7 +7,8 @@ s.boot;
 ~mainLib = (~path++"main.scd");
 ~synthLib.load;
 ~lib_func.value;
-
+)
+(
 //Load Prob Comp Demo
 ~path = PathName(thisProcess.nowExecutingPath).parentPath;
 ~compLib = (~path++"bin/ProbCompDemo.scd");

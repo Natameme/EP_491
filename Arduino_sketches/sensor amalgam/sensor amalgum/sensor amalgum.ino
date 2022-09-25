@@ -48,8 +48,15 @@
 #include <Arduino.h>
 #include <SensirionI2CScd4x.h>
 #include <Wire.h>
-
 SensirionI2CScd4x scd4x;
+
+  /////////////////////
+  // timer variables //
+  /////////////////////
+  
+long tempStartTime  = 0;
+long ultraStartTime = 0;
+long therStartTime  = 0;
 
 void printUint16Hex(uint16_t value) {
     Serial.print(value < 4096 ? "0" : "");
@@ -66,9 +73,9 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2) {
     Serial.println();
 }
 
-//////////////////////
+////////////////////////////
 // Ultrasonic Definitions //
-//////////////////////
+////////////////////////////
 
 //Pin Def for Sensor 1
 #define echoOne 2
@@ -100,7 +107,8 @@ int distFor; // variable for the distance measurement
 void setup() {
 // set up interrupts for the ultrasonic sensors
 
-attachInterrupt(digitalPinToInterrupt(echoOne), ultraLoop, FALLING);
+//attachInterrupt(digitalPinToInterrupt(echoOne), ultraLoop, FALLING);
+//attachInterrupt(digitalPinToInterrupt(echoOne), I2Cloop, FALLING);
 
 //////////////////////
 // Ultrasonic Setup //
@@ -167,45 +175,50 @@ attachInterrupt(digitalPinToInterrupt(echoOne), ultraLoop, FALLING);
     Serial.println("Waiting for first measurement... (5 sec)");
 }
 
-void I2Cloop(){
   ////////////////////////////////
   // I2C CO2/Temp/Humidity Loop //
   ////////////////////////////////
 
+void tempLoop(){
       uint16_t error;
     char errorMessage[256];
 
-    delay(5000);
+    if(millis() - tempStartTime > 5000){
+      tempStartTime = millis();    
 
-    // Read Measurement
-    uint16_t co2;
-    float temperature;
-    float humidity;
-    error = scd4x.readMeasurement(co2, temperature, humidity);
-    if (error) {
-        Serial.print("Error trying to execute readMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    } else if (co2 == 0) {
-        Serial.println("Invalid sample detected, skipping.");
-    } else {
-        Serial.print("Co2:");
-        Serial.print(co2);
-        Serial.print("\t");
-        Serial.print("Temperature:");
-        Serial.print(temperature);
-        Serial.print("\t");
-        Serial.print("Humidity:");
-        Serial.println(humidity);
+      // Read Measurement
+      uint16_t co2;
+      float temperature;
+      float humidity;
+      error = scd4x.readMeasurement(co2, temperature, humidity);
+      if (error) {
+          Serial.print("Error trying to execute readMeasurement(): ");
+          errorToString(error, errorMessage, 256);
+          Serial.println(errorMessage);
+      } else if (co2 == 0) {
+          Serial.println("Invalid sample detected, skipping.");
+      } else {
+          Serial.print("Co2:");
+          Serial.print(co2);
+          Serial.print("\t");
+          Serial.print("Temperature:");
+          Serial.print(temperature);
+          Serial.print("\t");
+          Serial.print("Humidity:");
+          Serial.println(humidity);
+      }
     }
 }
 
-void ultraLoop(){
 
   ///////////////////////////
   // Utrasonic Sensor Loop //
   ///////////////////////////
 
+void ultraLoop(){
+
+  if(millis() - ultraStartTime > 50){
+      ultraStartTime = millis();
   // Clears the trigPin condition
   digitalWrite(trigOne, LOW);
   digitalWrite(trigTwo, LOW);
@@ -262,13 +275,16 @@ void ultraLoop(){
   Serial.print(" Sensor 4: ");
   Serial.print(distFor);
   Serial.println(" cm");
-   delay(100);
+  }
 }
-
+  ///////////////////////
+  // Main Arduino Loop //
+  ///////////////////////
+    
 void loop() {
   //interrupts();
   ultraLoop();
   //noInterrupts();
-  I2Cloop();
+  tempLoop();
 }
 

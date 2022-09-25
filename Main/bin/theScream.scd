@@ -1,41 +1,52 @@
 
 (
+~timeInt = 0.02;
 SynthDef(\scream,{
-		arg out=0, oFreq=100, fmMult = 10, aAmt=0.3, fmAmt=1, aAtk= 0.4, aDec=10, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, gate=1;
+		arg out=0, oFreq=100, fmMult = 10, aAmt=0.3, fmAmt=1, aAtk= 0.4, aDec=60, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, gate=1;
 		var osc, ampEnv, fmEnv, sig;
-		osc = SinOsc.ar(oFreq, SinOsc.ar((oFreq * fmMult), 0, fmAmt), mul: 1);
-		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 1);
+	osc = SinOsc.ar(oFreq, SinOsc.ar((oFreq * fmMult.lag(~timeInt*10)), 0, fmAmt), mul: 1);
+		//ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 0);
 		fmEnv = EnvGen.kr(Env.new([0,1,0], fmAtk, fmDec), gate);
-		sig = Out.ar(out, Pan2.ar((osc * ampEnv) * mVol, pan));
+	sig = Out.ar(out, Pan2.ar((osc  /*ampEnv*/) * mVol.lag(~timeInt), pan));
 	}).add;
 )
 
+
+
+
+SerialPort.listDevices;
+// followed SuperCollider Tutorial 19 from Eli Fieldsteel, Patron Saint of SuperCollider Tutorials
 (
-~scream = Bus.control(s, 1);
-{Out.kr(~scream, MouseX.kr(0, 1))}.play;
+~synth = Synth(\scream, [\gate, 1]);
+~theremin = SerialPort.new("/dev/tty.usbserial-028603DA", 115200);
+~charArray = [ ];
+~therTrack = Routine.new({
+	var ascii;
+	{
+		ascii = ~theremin.read.asAscii;
+		if(ascii.isDecDigit, {~charArray = 	~charArray.add(ascii)});
+		if(ascii == $t, {
+			~therVal = ~charArray.collect(_.digit).convertDigits;
+			~therVal = ~therVal / 1023;
+			~vol = ~therVal - 0.25;
+			~charArray = [ ];
+			~therVal.postln;
+			~synth.set(\mVol, ~vol.clip(0, 1),\oFreq, ~therVal*500, \fmMult, 1);
+			~timeInt.wait;
+		});
+	}.loop;
+}).play;
 
-c = Synth(\scream, [\mVol, ~scream.asMap, \gate, 0]);
-
-x = Task({ { if (~scream.getSynchronous.asFloat > 0.2,
-	{c.setn(\gate, 1)}, {/*do nothing*/}); 1.wait;}.loop});
-
+x = Task({ { if ({~therVal > 0.25},
+	{~synth.setn(\gate, 1)}, {{Synth(\scream, [\mVol, ~therVal])}},); ~timeInt.wait;}.loop});
 x.start;
+)
+~therTrack.stop;
 
-if(~scream.getSynchronous.asFloat > 0.2,
-		{Synth(\scream, [\mVol, ~scream.asMap])} //if yes
+(
+
+if({~therVal > 0},
+		{Synth(\scream, [\mVol, ~scream])} //if yes
 );
 )
-
-
-
-~scream.getSynchronous.asFloat > 0.2;
-
-
-(~scream.getSynchronous.asFloat > 0.2).postln;
-(
-    {
-	if( MouseX.kr(0, 1) , SinOsc.ar, Saw.ar )
-    }.play
-)
-
 
