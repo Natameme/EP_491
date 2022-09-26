@@ -25,7 +25,7 @@ SerialPort.listDevices;
 	{
 		ascii = ~theremin.read.asAscii;
 		if(ascii.isDecDigit, {~charArray = 	~charArray.add(ascii)});
-		if(ascii == $t, {
+		if(ascii == $j, {
 			~therVal = ~charArray.collect(_.digit).convertDigits;
 			~therVal = ~therVal / 1023;
 			~vol = ~therVal - 0.25;
@@ -36,6 +36,8 @@ SerialPort.listDevices;
 		});
 	}.loop;
 }).play;
+
+
 
 x = Task({ { if ({~therVal > 0.25},
 	{~synth.setn(\gate, 1)}, {{Synth(\scream, [\mVol, ~therVal])}},); ~timeInt.wait;}.loop});

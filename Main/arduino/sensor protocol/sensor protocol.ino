@@ -41,26 +41,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-/*
-SERIAL PROTOCOL TABLE
-
-each sensor is preceeded by a alphabetic character tag as follows
-
-'a' : ultrasound sensor 1
-'b' : ultrasound sensor 2
-'c' : ultrasound sensor 3
-'d' : ultrasound sensor 4
-'e' : ultrasound sensor 5 NOT YET IMPLEMENTED
-'f' : ultrasound sensor 6 NOT YET IMPLEMENTED
-'g' : SCD40 CO2 
-'h' : SCD40 Humidity
-'i' : SCD40 Temperature
-'j' : theremin anntena
-*/
-///////////////////////////////
-// Packages for SCD40 Sensor // 
-///////////////////////////////
+/////////////////////////////
+// Packages for I2C Sensor // 
+/////////////////////////////
 
 #include <Arduino.h>
 #include <SensirionI2CScd4x.h>
@@ -138,7 +121,7 @@ void setup() {
 // set up interrupts for the ultrasonic sensors
 
 //attachInterrupt(digitalPinToInterrupt(echoOne), ultraLoop, FALLING);
-//attachInterrupt(digitalPinToInterrupt(echoOne), SCD40loop, FALLING);
+//attachInterrupt(digitalPinToInterrupt(echoOne), I2Cloop, FALLING);
 
 //////////////////////
 // Ultrasonic Setup //
@@ -156,14 +139,11 @@ void setup() {
   pinMode(trigFor, OUTPUT); // Sets the trigOne as an OUTPUT
   pinMode(echoFor, INPUT); // Sets the echoOne as an INPUT
 
-  ///////////////
-  // BAUD RATE //
-  ///////////////
-  //////////////////////////////////////////////////////////////////////////////////////////
+
   Serial.begin(115200); // // Serial Communication is starting with 115200 of baudrate speed
 
   //////////////////////////////
-  // SCD40 CO2/Temp/Humid Setup //
+  // I2C CO2/Temp/Humid Setup //
   //////////////////////////////
 
   while (!Serial) {
@@ -261,27 +241,26 @@ void ultraLoop(){
   distFor = durFor * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
 
   // Displays the distance on the Serial Monitor
-  Serial.print("a");
+
   Serial.print(distOne);
-  //Serial.print(" cm");
+  Serial.print("a");
 
-  Serial.print("b");
   Serial.print(distTwo);
-  //Serial.print(" cm");
+  Serial.print("b");
 
-  Serial.print("c");
   Serial.print(distTre);
-  //Serial.print(" cm");
+  Serial.print("c");
+  
 
-  Serial.print("d");
   Serial.print(distFor);
-  //Serial.println(" cm");
+  Serial.print("d");
+  
   }
 }
 
-  //////////////////////////////////
-  // SCD40 CO2/Temp/Humidity Loop //
-  //////////////////////////////////
+  ////////////////////////////////
+  // I2C CO2/Temp/Humidity Loop //
+  ////////////////////////////////
 
 void tempLoop(){
       uint16_t error;
@@ -296,22 +275,21 @@ void tempLoop(){
       float humidity;
       error = scd4x.readMeasurement(co2, temperature, humidity);
       if (error) {
-          Serial.print("Error trying to execute readMeasurement(): ");
+          //Serial.print("Error trying to execute readMeasurement(): ");
           errorToString(error, errorMessage, 256);
-          Serial.println(errorMessage);
+          //Serial.println(errorMessage);
       } else if (co2 == 0) {
-          Serial.println("Invalid sample detected, skipping.");
+          //Serial.println("Invalid sample detected, skipping.");
       } else {
           
           Serial.print(co2);
           Serial.print("g");
-          //Serial.print("\t");
           
           Serial.print(humidity);
           Serial.print("h");
-          //Serial.print("\t");
+          
+          Serial.print(temperature);
           Serial.print("i");
-          Serial.println(temperature);
       }
     }
 }
@@ -326,8 +304,8 @@ void thereminLoop(){
 
     thereminValue = analogRead(thereminPin);
 
-    Serial.print("j");
     Serial.print(thereminValue);
+    Serial.print("j");
   }  
 }
   ///////////////////////
@@ -335,8 +313,8 @@ void thereminLoop(){
   ///////////////////////
     
 void loop() {
-  //ultraLoop();
+  ultraLoop();
   tempLoop();
-  //thereminLoop();
+  thereminLoop();
 }
 
