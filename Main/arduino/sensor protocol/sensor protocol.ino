@@ -140,7 +140,7 @@ void setup() {
   pinMode(echoFor, INPUT); // Sets the echoOne as an INPUT
 
 
-  Serial.begin(115200); // // Serial Communication is starting with 115200 of baudrate speed
+  Serial.begin(115200); // // Serial Communication is starting with 2000000 of baudrate speed
 
   //////////////////////////////
   // I2C CO2/Temp/Humid Setup //
@@ -198,7 +198,7 @@ void setup() {
 
 void ultraLoop(){
 
-  if(millis() - ultraStartTime > 50){
+  if(millis() - ultraStartTime > 10){
       ultraStartTime = millis();
   // Clears the trigPin condition
   digitalWrite(trigOne, LOW);
@@ -299,7 +299,7 @@ void tempLoop(){
 ////////////////////
 
 void thereminLoop(){
-  if(millis() - thereminStartTime > 100){
+  if(millis() - thereminStartTime > 10){
         thereminStartTime = millis(); 
 
     thereminValue = analogRead(thereminPin);

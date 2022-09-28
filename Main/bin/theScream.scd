@@ -1,6 +1,5 @@
 
 (
-~timeInt = 0.02;
 SynthDef(\scream,{
 		arg out=0, oFreq=100, fmMult = 10, aAmt=0.3, fmAmt=1, aAtk= 0.4, aDec=60, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, gate=1;
 		var osc, ampEnv, fmEnv, sig;
@@ -17,6 +16,7 @@ SynthDef(\scream,{
 SerialPort.listDevices;
 // followed SuperCollider Tutorial 19 from Eli Fieldsteel, Patron Saint of SuperCollider Tutorials
 (
+~timeInt = 0.02;
 ~synth = Synth(\scream, [\gate, 1]);
 ~theremin = SerialPort.new("/dev/tty.usbserial-028603DA", 115200);
 ~charArray = [ ];
@@ -27,7 +27,7 @@ SerialPort.listDevices;
 		if(ascii.isDecDigit, {~charArray = 	~charArray.add(ascii)});
 		if(ascii == $j, {
 			~therVal = ~charArray.collect(_.digit).convertDigits;
-			~therVal = ~therVal / 1023;
+			~therVal = ~therVal;
 			~vol = ~therVal - 0.25;
 			~charArray = [ ];
 			~therVal.postln;
@@ -37,12 +37,11 @@ SerialPort.listDevices;
 	}.loop;
 }).play;
 
-
-
-x = Task({ { if ({~therVal > 0.25},
-	{~synth.setn(\gate, 1)}, {{Synth(\scream, [\mVol, ~therVal])}},); ~timeInt.wait;}.loop});
-x.start;
 )
+
+
+
+
 ~therTrack.stop;
 
 (
