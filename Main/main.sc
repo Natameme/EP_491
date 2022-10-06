@@ -1,33 +1,55 @@
-(
-s.boot;
-)
-(
+
+
+
+//This File Executes all of the code to start the installation
+//kill sensors
+~killSensors = {
+~sensorTrack.stop;
+};
+
+~serialPort = {
+//Find Serial Port
+SerialPort.listDevices;
+};
+
+~main = {
+
+~path = PathName(thisProcess.nowExecutingPath).parentPath;
+//~main = {
+
+Routine({
+	"hello world!".postln;
+
+//global Time Sampling Interval for Control Values
 ~timeInt = 0.001;
 
 //Load Synths
-~path = PathName(thisProcess.nowExecutingPath).parentPath;
 ~synthLib = (~path++"Synths/SynthLibrary.scd");
-~mainLib = (~path++"main.scd");
 ~synthLib.load;
 ~lib_func.value;
-)
-(
+
+2.wait;
+
 //Load Sensors
-~path = PathName(thisProcess.nowExecutingPath).parentPath;
 ~serialLib = (~path++"bin/serialReader.scd");
 ~serialLib.load;
 ~serial_func.value;
-)
-(
+
+1.wait;
+
+//Load SoundMass
+~soundMassLib = (~path++"bin/soundMass.scd");
+~soundMassLib.load;
+~soundMass.value;
+
+1.wait;
+
+
 //Load Prob Comp Demo
-~path = PathName(thisProcess.nowExecutingPath).parentPath;
 ~compLib = (~path++"bin/ProbCompDemo.scd");
 ~compLib.load;
-~comp_func.value;
-)
+~comp_func.play ;
 
+}).play;
+};
 
-//kill sensors
-~sensorTrack.stop;
-
-~timeInt = 0.0001;

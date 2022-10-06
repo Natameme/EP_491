@@ -1,9 +1,12 @@
-~comp_func = {
+~comp_func = Routine({
+
+~tempo = TempoClock((~co2Count + ~humCount + ~temCount) / 3);
+~tempo.tempo.postln;
 ~root = 261;
 ~p3.stop;
 Pdef(\p3, ~p3 = Pbind(
-	\instrument, \PianoC3,
-	\dur, 0.5,
+		\instrument, \PianoC3,
+	\dur, ~tempo.tempo,
 	\oFreq, Pwrand([
 	Pwrand(
 	// ISOLATION section 1
@@ -70,7 +73,7 @@ Pdef(\p3, ~p3 = Pbind(
 			~root * (15/16) * (8/5) * (3/2).sqrt,
 			~root * (15/16) * (8/5),
 			~root * (15/16),
-			~root * (15/16)*(3/2).sqrt
+			~root * (15/16)*(3/2).sqrt,
 			], 1)//# of repeats
 
 		],//END OF SECTION 2
@@ -91,4 +94,4 @@ Pdef(\p3, ~p3 = Pbind(
 					1)//# of repeat
 	], [0.45, 0.45,0.1], inf);
 )).play;
-}
+});

@@ -93,16 +93,30 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2) {
 #define echoFor 8
 #define trigFor 9
 
+//Pin Def for Sensor 5
+#define echoFiv 10
+#define trigFiv 11
+
+//Pin Def for Sensor 6
+#define echoSix 12
+#define trigSix 13
+
+
+
 // defines Duration variables
 long durOne; // variable for the duration of sound wave travel
 long durTwo; // variable for the duration of sound wave travel
 long durTre; // variable for the duration of sound wave travel
 long durFor; // variable for the duration of sound wave travel
+long durFiv; // variable for the duration of sound wave travel
+long durSix; // variable for the duration of sound wave travel
 
 int distOne; // variable for the distance measurement
 int distTwo; // variable for the distance measurement
 int distTre; // variable for the distance measurement
 int distFor; // variable for the distance measurement
+int distFiv; // variable for the distance measurement
+int distSix; // variable for the distance measurement
 
 //////////////////////////
 // Theremin Definitions //
@@ -128,19 +142,24 @@ void setup() {
 //////////////////////
 
   pinMode(trigOne, OUTPUT); // Sets the trigOne as an OUTPUT
-  pinMode(echoOne, INPUT); // Sets the echoOne as an INPUT
+  pinMode(echoOne, INPUT);  // Sets the echoOne as an INPUT
 
-  pinMode(trigTwo, OUTPUT); // Sets the trigOne as an OUTPUT
-  pinMode(echoTwo, INPUT); // Sets the echoOne as an INPUT
+  pinMode(trigTwo, OUTPUT); // Sets the trigTwo as an OUTPUT
+  pinMode(echoTwo, INPUT);  // Sets the echoTwo as an INPUT
 
-  pinMode(trigTre, OUTPUT); // Sets the trigOne as an OUTPUT
-  pinMode(echoTre, INPUT); // Sets the echoOne as an INPUT
+  pinMode(trigTre, OUTPUT); // Sets the trigTre as an OUTPUT
+  pinMode(echoTre, INPUT);  // Sets the echoTre as an INPUT
 
-  pinMode(trigFor, OUTPUT); // Sets the trigOne as an OUTPUT
-  pinMode(echoFor, INPUT); // Sets the echoOne as an INPUT
+  pinMode(trigFor, OUTPUT); // Sets the trigFor as an OUTPUT
+  pinMode(echoFor, INPUT);  // Sets the echoFor as an INPUT
 
+  pinMode(trigFiv, OUTPUT); // Sets the trigFiv as an OUTPUT
+  pinMode(echoFiv, INPUT);  // Sets the echoFiv as an INPUT
 
-  Serial.begin(115200); // // Serial Communication is starting with 2000000 of baudrate speed
+  pinMode(trigSix, OUTPUT); // Sets the trigSix as an OUTPUT
+  pinMode(echoSix, INPUT);  // Sets the echoSix as an INPUT
+
+  Serial.begin(115200);     // Serial Communication is starting with 2000000 of baudrate speed
 
   //////////////////////////////
   // I2C CO2/Temp/Humid Setup //
@@ -205,6 +224,8 @@ void ultraLoop(){
   digitalWrite(trigTwo, LOW);
   digitalWrite(trigTre, LOW);
   digitalWrite(trigFor, LOW);
+  digitalWrite(trigFiv, LOW);
+  digitalWrite(trigSix, LOW);
     delayMicroseconds(2);
  
  //read loop for Sensor 1
@@ -231,7 +252,17 @@ void ultraLoop(){
   digitalWrite(trigFor, LOW);  // Set trigOne LOW
   durFor = pulseIn(echoFor, HIGH); // read echo
 
- 
+     //read loop for Sensor 5
+  digitalWrite(trigFiv, HIGH);  // Sets the trigOne HIGH (ACTIVE) for 10 microseconds
+   delayMicroseconds(10);
+  digitalWrite(trigFiv, LOW);  // Set trigOne LOW
+  durFiv = pulseIn(echoFiv, HIGH); // read echo
+
+     //read loop for Sensor 6
+  digitalWrite(trigSix, HIGH);  // Sets the trigOne HIGH (ACTIVE) for 10 microseconds
+   delayMicroseconds(10);
+  digitalWrite(trigSix, LOW);  // Set trigOne LOW
+  durSix = pulseIn(echoSix, HIGH); // read echo
 
 
   // Calculating the distance
@@ -239,6 +270,8 @@ void ultraLoop(){
   distTwo = durTwo * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
   distTre = durTre * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
   distFor = durFor * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  distFiv = durFiv * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  distSix = durSix * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
 
   // Displays the distance on the Serial Monitor
 
@@ -254,6 +287,12 @@ void ultraLoop(){
 
   Serial.print(distFor);
   Serial.print("d");
+
+  Serial.print(distFiv);
+  Serial.print("e");
+
+  Serial.print(distSix);
+  Serial.print("f");
   
   }
 }

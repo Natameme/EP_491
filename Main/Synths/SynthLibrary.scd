@@ -5,15 +5,15 @@
 	////////////////
 
 	SynthDef(\scream,{
-		arg out=0, oFreq=300, fmMult = 16.18, aAmt=0.3, fmAmt=10, aAtk= 0.4, aDec=60, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, gate=1;
-		var osc, ampEnv, filtOne, filtTwo, filtTre, fmEnv, sig;
+		arg out=0, oFreq=300, fmMult = 16.18, aAmt=0.3, fmAmt=10, aAtk= 0.4, aDec=60, pan=0, mVol = 1.0, gate=1;
+		var osc, ampEnv, filtOne, filtTwo, filtTre, sig;
 	osc = SinOsc.ar(oFreq, SinOsc.ar((oFreq * fmMult.lag(~timeInt*20)), 0, fmAmt), mul: 1);
 		filtOne = BPF.ar(osc, 660*(oFreq/20),  130/660, 2);
 		filtTwo = BPF.ar(osc, 1720, 700/1720, 2);
 		filtTre = BPF.ar(osc, 2410, 160/2410, 2);
-		//ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 0);
-		fmEnv = EnvGen.kr(Env.new([0,1,0], fmAtk, fmDec), gate);
-		sig = Out.ar(out, Pan2.ar(((filtOne + filtTwo + filtTre) /*ampEnv*/) * mVol.lag(~timeInt*20), pan));
+		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 0);
+		//fmEnv = EnvGen.kr(Env.new([0,1,0], fmAtk, fmDec), gate);
+		sig = Out.ar(out, Pan2.ar(((filtOne + filtTwo + filtTre) * ampEnv) * mVol/*.lag(~timeInt*20)*/, pan));
 	}).add;
 
 
