@@ -31,7 +31,9 @@
 
 			//~centerPoint.postln;
 			//~volArr.postln;
-			0.1.wait;
-		}.loop
+			~volArr = ~volArr; /// 10.0;
+			~timeInt.wait;
+		}.loop;
+
 	}).play;
 }

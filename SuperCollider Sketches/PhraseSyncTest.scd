@@ -1,5 +1,15 @@
 (
+~root = 261;
+~clock = 60/140;
 ~guitarP1 = [
+	~root * 1,
+	~root * 3/2,
+	~root * 2/1,
+	~root * 9/4,
+	~root * 5/2,
+	~root * 9/4,
+	~root * 2/1,
+	~root * 3/2,
 	~root * 1,
 	~root * 3/2,
 	~root * 2/1,
@@ -11,6 +21,14 @@
 ];
 
 ~guitarP2 = [
+	~root * 4/3,
+	~root * 5/3,
+	~root * 2/1,
+	~root * 9/4,
+	~root * 5/2,
+	~root * 9/4,
+	~root * 2/1,
+	~root * 5/3,
 	~root * 4/3,
 	~root * 5/3,
 	~root * 2/1,
@@ -64,16 +82,16 @@
 
 
 ~guitarPhrase1 = Pbind(\instrument,
-	\guitar,
-	\dur, 0.5,
-	\oFreq, Pseq(~guitarP1, 2),
+	\sawSynth,
+	\dur, ~clock,
+	\oFreq, Pseq(~guitarP1, 1),
 	\mVol, 0.2,
 	\pan, 1
 );
 
 ~pianoPhrase1 = Pbind(
-		\instrument, \PianoC3,
-	\dur, 0.5,
+		\instrument, \fmSynth,
+	\dur, ~clock,
 	\aAtk, 0.01,
 	\aDec, 1,
 	\fmAmt, 2,
@@ -83,15 +101,15 @@
 );
 
 ~guitarPhrase2 = Pbind(\instrument,
-	\guitar,
-	\dur, 0.5,
-	\oFreq, Pseq(~guitarP2, 2),
+	\sawSynth,
+	\dur, ~clock,
+	\oFreq, Pseq(~guitarP2, 1),
 	\mVol, 0.2,
 	\pan, 1
 );
 ~pianoPhrase2 = Pbind(
-		\instrument, \PianoC3,
-	\dur, 0.5,
+		\instrument, \fmSynth,
+	\dur, ~clock,
 	\aAtk, 0.01,
 	\aDec, 1,
 	\fmAmt, 2,
@@ -100,7 +118,38 @@
 	\pan, 0
 );
 
-~play = Prand([[~guitarPhrase1, ~pianoPhrase1],[~guitarPhrase2,	~pianoPhrase2]], inf);
+//~play = Prand([
+//	[~guitarPhrase1, ~pianoPhrase1],
+//	[~guitarPhrase2,	~pianoPhrase2]
+//], inf);
 
-Pchain(~play).play;
+//Pdef(\d, ~play).play;
+//)
+
+//(
+Routine({{
+	var sel;
+
+	sel = Prand([1, 2], inf).asStream;
+
+	sel.next.postln;
+
+	if(sel.next == 1, {
+		sel.postln;
+		~guitarPhrase1.play;
+		~pianoPhrase1.play;
+		(~pianoP1.size * ~clock).wait;
+	});
+
+	if(sel.next == 2, {
+		sel.postln;
+		~guitarPhrase2.play;
+		~pianoPhrase2.play;
+		(~oianoP2.size * ~clock).wait;
+	});
+
+}.loop;
+}).play;
 )
+
+~guitarP1.size * ~clock;

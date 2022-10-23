@@ -264,6 +264,8 @@ void ultraLoop(){
   digitalWrite(trigSix, LOW);  // Set trigOne LOW
   durSix = pulseIn(echoSix, HIGH); // read echo
 
+  
+
 
   // Calculating the distance
   distOne = durOne * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)

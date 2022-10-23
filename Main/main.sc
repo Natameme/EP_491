@@ -45,8 +45,8 @@ Routine({
 1.wait;
 
 
-//Load Prob Comp Demo
-~compLib = (~path++"bin/ProbCompDemo.scd");
+//Load Composition
+~compLib = (~path++"bin/Composition.scd");
 ~compLib.load;
 ~comp_func.play ;
 

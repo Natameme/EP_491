@@ -1,3 +1,4 @@
+~comp_func =
 ~comp_func = Routine({
 
 ~tempo = TempoClock((~co2Count + ~humCount + ~temCount) / 3);
@@ -93,5 +94,18 @@ Pdef(\p3, ~p3 = Pbind(
 					],//END OF SECTION 3
 					1)//# of repeat
 	], [0.45, 0.45,0.1], inf);
+		//\out, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+		/*\amp, [
+			~volArr[0],
+			~volArr[1],
+			~volArr[2],
+			~volArr[3],
+			~volArr[4],
+			~volArr[5],
+			~volArr[6],
+			~volArr[7],
+			~volArr[8],
+			~volArr[9],
+		];*/
 )).play;
 });

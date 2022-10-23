@@ -20,12 +20,44 @@
 ~co2Count = 1.5;
 ~humCount = 1.5;
 ~temCount = 1.5;
+~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
 
 	/////////////////////////////
 	// call modules to control //
 	/////////////////////////////
 
 ~scream = Synth(\scream, [\gate, 0, \mVol, 0]);
+
+	~orgVolOne = Bus.control(s, 1);
+	~orgSigOne = {arg in = 0;
+		Out.kr(~orgVolOne, Lag.kr(in, 1));
+		}.play;
+
+	~orgVolTwo = Bus.control(s, 1);
+	~orgSigTwo = {arg in = 0;
+		Out.kr(~orgVolTwo, Lag.kr(in, 1));
+		}.play;
+
+	~orgVolTre = Bus.control(s, 1);
+	~orgSigTre = {arg in = 0;
+		Out.kr(~orgVolTre, Lag.kr(in, 1));
+		}.play;
+
+	~orgVolFor = Bus.control(s, 1);
+	~orgSigFor = {arg in = 0;
+		Out.kr(~orgVolFor, Lag.kr(in, 1));
+		}.play;
+
+	~orgVolFiv = Bus.control(s, 1);
+	~orgSigFiv = {arg in = 0;
+		Out.kr(~orgVolFiv, Lag.kr(in, 1));
+		}.play;
+
+	~orgVolSix = Bus.control(s, 1);
+	~orgSigSix = {arg in = 0;
+		Out.kr(~orgVolSix, Lag.kr(in, 1));
+		}.play;
+
 
 ~sensorTrack = Routine.new({
 	var asciiArr;
@@ -37,17 +69,20 @@
 		if(asciiArr == $a, {~aVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 1: ".post;
-			~aVal.post;
-
+			//" distance 1: ".post;
+		    //~orgVolOne.getSynchronous.postln;
+				~aVal = (~aVal * -0.2).dbamp;
+				~orgSigOne.set(\in, ~aVal);
 		});
 
 		// Ultrasonic 2
 		if(asciiArr == $b, {~bVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 2: ".post;
-			~bVal.post;
+			//" distance 2: ".post;
+			//~bVal.post;
+				~bVal = (~bVal * -0.2).dbamp;
+				~orgSigTwo.set(\in, ~bVal);
 
 		});
 
@@ -55,8 +90,10 @@
 		if(asciiArr == $c, {~cVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 3: ".post;
-			~cVal.post;
+			//" distance 3: ".post;
+			//~cVal.post;
+				~cVal = (~cVal * -0.2).dbamp;
+				~orgSigTre.set(\in, ~cVal);
 
 		});
 
@@ -64,8 +101,10 @@
 		if(asciiArr == $d, {~dVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 4: ".post;
-			~dVal.post;
+			//" distance 4: ".post;
+			//~dVal.post;
+				~dVal = (~dVal * -0.2).dbamp;
+				~orgSigFor.set(\in, ~dVal);
 
 		});
 
@@ -73,18 +112,21 @@
 		if(asciiArr == $e, {~eVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 5: ".post;
-			~eVal.post;
+			//" distance 5: ".post;
+			//~eVal.post;
 
+				~eVal = (~eVal * -0.2).dbamp;
+				~orgSigFiv.set(\in, ~eVal);
 		});
 
 		// Ultrasonic 6
 		if(asciiArr == $f, {~fVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 6: ".post;
-			~fVal.postln;
-
+			//" distance 6: ".post;
+			//~fVal.postln;
+				~fVal = (~fVal * -0.2).dbamp;
+				~orgSigSix.set(\in, ~fVal);
 		});
 
 		////////////////////////////////
@@ -95,9 +137,9 @@
 		if(asciiArr == $g, {~gVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			~co2Count = ~gVal / 3000;
+			~co2Count = ~gVal / 3000.0;
 			" CO2: ".post;
-			~gVal.post;
+			~co2Count.post;
 
 		});
 
@@ -105,11 +147,11 @@
 		if(asciiArr == $h, {~hVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			~hVal = ~hVal / 100;
-			~humCount = ~hVal / 300;
+			~hVal = ~hVal / 100.0;
+			~humCount = ~hVal / 300.0;
 			//post values
 			" Humidity: ".post;
-			~hVal.post;
+			~humCount.post;
 
 		});
 
@@ -117,11 +159,15 @@
 		if(asciiArr == $i, {~iVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			~iVal = ~iVal / 100;
-			~temCount = ~iVal / 10;
+			~iVal = ~iVal / 100.0;
+			~temCount = ~iVal / 10.0;
 			//post values
 			" Temperature: ".post;
-			~iVal.postln;
+			~temCount.postln;
+			~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
+			"HeadCount: ".post;
+			~headCount.postln;
+
 
 		});
 
@@ -132,21 +178,23 @@
 			~charArray = [ ];
 			//value conditioning
 			~jVal = ~jVal / 100; // convert to value between 0.0 ~ 1.0
+				~screamVol = ~j;
 				~screamVol  = (~jVal - 0.25).clip(0, 1); //
-			" Theremin: ".post;
-			~jVal.postln;
-
+			//" Theremin: ".post;
+			//~jVal.postln;
+				/*
 				// set mod params
 				~scream.set(\mVol, ~screamVol, \fmMult, (~jVal * 20),\fmAmt, ~jVal, );
 
-				if(~jVal > 0.01,
+				if(~jVal > 8.0,
 				{
-						~scream.set(\gate, 1, \aDec, 5);
-				},
-				{
-						~scream.set(\gate, 0);
+						~scream.set(\gate, 1, \aDec, 50);
 				});
-
+				if(~jVal < 8.0,
+				{
+						~scream.set(\gate, 0, \aDec, 0.5);
+				});
+*/
 		});
 	// timer
 	~timeInt.wait;
