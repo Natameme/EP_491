@@ -6,8 +6,8 @@
 
 //to COMPILE AND RUN:
 // clang SPEARreader.c -o SPEARreader && ./SPEARreader
-const char* filename = "PianoC4.txt";
-const char* sheetname = "PianoC4.csv";
+const char* filename = "PianoC0.txt";
+const char* sheetname = "PianoC0.csv";
 
 int main(int argc, char *argv[])
 {

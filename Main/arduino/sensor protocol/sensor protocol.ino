@@ -357,5 +357,6 @@ void loop() {
   ultraLoop();
   tempLoop();
   thereminLoop();
+  Serial.println("");
 }
 

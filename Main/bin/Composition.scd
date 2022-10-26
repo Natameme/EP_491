@@ -7,8 +7,8 @@
 ~clock.postln;
 ~root = 261;
 
-~pnoVol = -14.dbamp;
-~gtrVol = -28.dbamp;
+~pnoVol = -36.dbamp;
+~gtrVol = -24.dbamp;
 //~orgVol = Bus.control(s,1);
 //{ Out.kr(~orgVol, Lag.kr(DC.kr(~orgValA), ~timeInt)) };
 /////////////////////////
@@ -445,8 +445,7 @@ Prand([
 	                   \pan, 0;
                    );
 
-
-
+	~seqFunc.value;
 
 ~player.reset;
 ~player = Routine({{
@@ -455,9 +454,8 @@ Prand([
 	    compOneSecOne, compOneSecTwo, compOneSecTre;
 
 		compOne = Pwrand([1, 2, 3], [
-			-1.0 * (~headCount-1).squared+1.0,
-			-1.0 * (~headCount-1).squared+2.0,
-			-1.0 * (~headCount-1).squared+3.0,
+			10,
+			1, 2
 		].normalizeSum, inf).asStream;
 	"Comp One Section  ".post;
 	compOne.next.postln;
@@ -467,7 +465,7 @@ Prand([
 	// SECTION 1 //
 	///////////////
 
-	compOneSecOne = Pwrand([1, 2, 3], [~co2Count, ~temCount, ~humCount].normalizeSum, inf).asStream;
+	compOneSecOne = Pwrand([1, 2, 3], [1, 1, 1].normalizeSum, inf).asStream;
 
 	"Comp 1 Section 1 Phrase ".post;
 	compOneSecOne.next.postln;

@@ -10,7 +10,7 @@
 
 ~pnoVol = -27.dbamp;
 ~gtrVol = -18.dbamp;
-~orgVol = -118.dbamp;
+//~orgVol = -118.dbamp;
 
 /////////////////////////
 // ISOLATION SECTION 1 //

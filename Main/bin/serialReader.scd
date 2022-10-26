@@ -30,32 +30,32 @@
 
 	~orgVolOne = Bus.control(s, 1);
 	~orgSigOne = {arg in = 0;
-		Out.kr(~orgVolOne, Lag.kr(in, 1));
+		Out.kr(~orgVolOne, Lag.kr(in, 3));
 		}.play;
 
 	~orgVolTwo = Bus.control(s, 1);
 	~orgSigTwo = {arg in = 0;
-		Out.kr(~orgVolTwo, Lag.kr(in, 1));
+		Out.kr(~orgVolTwo, Lag.kr(in, 3));
 		}.play;
 
 	~orgVolTre = Bus.control(s, 1);
 	~orgSigTre = {arg in = 0;
-		Out.kr(~orgVolTre, Lag.kr(in, 1));
+		Out.kr(~orgVolTre, Lag.kr(in, 3));
 		}.play;
 
 	~orgVolFor = Bus.control(s, 1);
 	~orgSigFor = {arg in = 0;
-		Out.kr(~orgVolFor, Lag.kr(in, 1));
+		Out.kr(~orgVolFor, Lag.kr(in, 3));
 		}.play;
 
 	~orgVolFiv = Bus.control(s, 1);
 	~orgSigFiv = {arg in = 0;
-		Out.kr(~orgVolFiv, Lag.kr(in, 1));
+		Out.kr(~orgVolFiv, Lag.kr(in, 3));
 		}.play;
 
 	~orgVolSix = Bus.control(s, 1);
 	~orgSigSix = {arg in = 0;
-		Out.kr(~orgVolSix, Lag.kr(in, 1));
+		Out.kr(~orgVolSix, Lag.kr(in, 3));
 		}.play;
 
 
@@ -168,7 +168,7 @@
 			"HeadCount: ".post;
 			~headCount.postln;
 
-
+				//
 		});
 
 		// Theremin Antenna
@@ -178,23 +178,23 @@
 			~charArray = [ ];
 			//value conditioning
 			~jVal = ~jVal / 100; // convert to value between 0.0 ~ 1.0
-				~screamVol = ~j;
+				~screamVol = ~jVal;
 				~screamVol  = (~jVal - 0.25).clip(0, 1); //
-			//" Theremin: ".post;
-			//~jVal.postln;
-				/*
-				// set mod params
-				~scream.set(\mVol, ~screamVol, \fmMult, (~jVal * 20),\fmAmt, ~jVal, );
+			" Theremin: ".post;
+			~jVal.postln;
 
-				if(~jVal > 8.0,
+				// set mod params
+				~scream.set(\mVol, ~screamVol, \fmMult, (~jVal * 50),\fmAmt, ~jVal*40, );
+
+				if(~jVal > 1.0,
 				{
 						~scream.set(\gate, 1, \aDec, 50);
 				});
-				if(~jVal < 8.0,
+				if(~jVal < 1.0,
 				{
 						~scream.set(\gate, 0, \aDec, 0.5);
 				});
-*/
+
 		});
 	// timer
 	~timeInt.wait;

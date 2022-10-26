@@ -5,6 +5,7 @@
 ~pnoVol = -16.dbamp;
 ~gtrVol = -12.dbamp;
 ~orgTest = -32.dbamp;
+~flueVol = -24.dbamp;
 
 ~pnoC3S1P1A.stop;
 ~pnoC3S1P1A = Pbind(\oFreq, Pbrown(~root*0.5, ~root * 2, ~root/2, inf),
@@ -116,11 +117,25 @@
 ~orgC3S1P1Seq.stop;
 ~orgC3S1P1Seq = Pbind(\instrument, \fmSynth,
 	                  \dur, ~clock * 15,
-	                  \fmAmt, Pwhite(2, 5, inf),
+	                  \fmAmt, Pwhite(5, 10, inf),
 	                  \aAtk, 12,
 	                  \aDec,  12,
 	                  \oFreq, Pseq([~orgC3S1P1], inf),
-	                  \mVol, ~orgTest;
+	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
+			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
+		                     ];
                    ).play;
+
+~flueC3S1P1Seq.stop;
+~flueC3S1P1Seq = Pbind(\instrument, \flue,
+	                  \dur, ~clock * 15,
+	                  \fmAmt, Pwhite(2, 5, inf),
+	                  \aAtk, 15,
+	                  \aDec,  15,
+	                  \oFreq, 1/8 * ~root,
+	                  \mVol, Pwhite(~flueVol/2, ~flueVol, inf);
+                   ).play;
+
 
 )

@@ -1,4 +1,4 @@
-
+~timeInt = 0.001;
 
 
 //This File Executes all of the code to start the installation
@@ -44,12 +44,12 @@ Routine({
 
 1.wait;
 
-
+/*
 //Load Composition
 ~compLib = (~path++"bin/Composition.scd");
 ~compLib.load;
 ~comp_func.play ;
-
+*/
 }).play;
 };
 
