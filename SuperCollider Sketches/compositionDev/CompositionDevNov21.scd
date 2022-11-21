@@ -1,12 +1,31 @@
-//Load Composition
-//COMPOSITION STRUCTURE
-// 3 Compositions: Isolation, Community, Overstimulation
-//~lib_func.value;
-~comp_func = {
-
+//~comp_func = {
+(
 /////////////////////////
 // ISOLATION SECTION 1 //
 /////////////////////////
+~headCount = 1;
+~clock = 60/((~headCount * 20) + 60);
+
+
+~root = 261.0;
+
+~orgVol = -40.dbamp;
+~pnoVol = -40.dbamp;
+~gtrVol = -24.dbamp;
+
+//load score files
+
+~compOneLib = (~path ++ "bin/compOneIsolation.scd");
+~compOneLib.load;
+~compOne.value;
+
+~compTwoLib = (~path ++ "bin/compTwoCommunity.scd");
+~compTwoLib.load;
+~compTwo.value;
+
+~compTreLib = (~path ++ "bin/compTreOverstim.scd");
+~compTreLib.load;
+~compTre.value;
 
 ~player.reset;
 ~player = Routine({{
@@ -23,9 +42,9 @@
 ~compTre.value;
 
 		main = Pwrand([1, 2, 3], [
-			(-1.0 * (~headCount - 1).squared + 1).clip(0, 1),
-			(-1.0 * (~headCount - 2).squared + 1).clip(0, 1),
-			(-1.0 * (~headCount - 3).squared + 1).clip(0, 1)].normalizeSum, inf).asStream;
+			1,//(-1.0 * (~headCount - 1).squared + 1).clip(0, 1),
+			0,//(-1.0 * (~headCount - 2).squared + 1).clip(0, 1),
+			0/*(-1.0 * (~headCount - 3).squared + 1).clip(0, 1)*/].normalizeSum, inf).asStream;
 
 	if(main.next == 1, {
 		compOne = Pwrand([1, 2, 3], [
@@ -172,5 +191,6 @@
 
 }.loop;
 }).play;
-};
 
+)
+//};

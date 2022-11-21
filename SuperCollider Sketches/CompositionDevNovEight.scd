@@ -3,6 +3,32 @@
 // 3 Compositions: Isolation, Community, Overstimulation
 //~lib_func.value;
 ~comp_func = {
+//(~pnoC1S1P1.size * ~clock)
+
+
+~clock = 60/80;
+//~clock.postln;
+~root = 261;
+
+
+~orgVol = -40.dbamp;
+~pnoVol = -40.dbamp;
+~gtrVol = -24.dbamp;
+
+
+~path = PathName(thisProcess.nowExecutingPath).parentPath;
+
+~compOneLib = (~path ++ "compOneIsolation.scd");
+~compOneLib.load;
+~compOne.value;
+
+~compTwoLib = (~path ++ "compTwoCommunity.scd");
+~compTwoLib.load;
+~compTwo.value;
+
+~compTreLib = (~path ++ "compTreOverstim.scd");
+~compTreLib.load;
+~compTre.value;
 
 /////////////////////////
 // ISOLATION SECTION 1 //
@@ -10,22 +36,11 @@
 
 ~player.reset;
 ~player = Routine({{
-
 	//variable represent random selectors
 	 var main, compOne, compTwo, compTre,
 	    compOneSecOne, compOneSecTwo, compOneSecTre;
 
-~clock = 60/((~headCount * 20) + 60);
-		//reboot score files
-
-~compOne.value;
-~compTwo.value;
-~compTre.value;
-
-		main = Pwrand([1, 2, 3], [
-			(-1.0 * (~headCount - 1).squared + 1).clip(0, 1),
-			(-1.0 * (~headCount - 2).squared + 1).clip(0, 1),
-			(-1.0 * (~headCount - 3).squared + 1).clip(0, 1)].normalizeSum, inf).asStream;
+		main = Pwrand([1, 2, 3], [1, 0, 0].normalizeSum, inf).asStream;
 
 	if(main.next == 1, {
 		compOne = Pwrand([1, 2, 3], [
@@ -135,7 +150,6 @@
 
 			~gtrC2S1P1Seq.play;
 			~orgC2S1P1Seq.play;
-			//~sawC2S1P1SeqA.play;
 			(~guitarC2S1P1.size * 2 * (~clock/3)).wait;
 
 		});
@@ -169,6 +183,7 @@
 		//~flueC3S1P1Seq.play;
 		(~clock * 30).wait;
 	});
+
 
 }.loop;
 }).play;

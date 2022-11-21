@@ -1,6 +1,37 @@
 //Compilation of All of my Supercollider Synthdefs
 (
-~timeInt = 0.01;
+~timeInt = 0.001;
+~headCount = 1;
+~orgVolOne = Bus.control(s, 1);
+	~orgSigOne = {arg in = 0.1;
+		Out.kr(~orgVolOne, Lag.kr(in, 3));
+		}.play;
+
+	~orgVolTwo = Bus.control(s, 1);
+	~orgSigTwo = {arg in = 0.1;
+		Out.kr(~orgVolTwo, Lag.kr(in, 3));
+		}.play;
+
+	~orgVolTre = Bus.control(s, 1);
+	~orgSigTre = {arg in = 0.1;
+		Out.kr(~orgVolTre, Lag.kr(in, 3));
+		}.play;
+
+	~orgVolFor = Bus.control(s, 1);
+	~orgSigFor = {arg in = 0.1;
+		Out.kr(~orgVolFor, Lag.kr(in, 3));
+		}.play;
+
+	~orgVolFiv = Bus.control(s, 1);
+	~orgSigFiv = {arg in = 0.1;
+		Out.kr(~orgVolFiv, Lag.kr(in, 3));
+		}.play;
+
+	~orgVolSix = Bus.control(s, 1);
+	~orgSigSix = {arg in = 0.1;
+		Out.kr(~orgVolSix, Lag.kr(in, 3));
+		}.play;
+
 	////////////////
 	// The Scream //
 	////////////////
@@ -25,12 +56,13 @@ SynthDef(\scream,{
 	// FM Synth //
 	//////////////
 
-	SynthDef(\fmSynth,{
-	arg out=0, oFreq=[100, 200], fmMult = 1, aAmt=0.3, fmAmt=1, aAtk= 0.4, aDec=4, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, gate=1;
+		SynthDef(\fmSynth,{
+	arg out= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], oFreq=[100, 200], fmMult = 1, aAmt=0.3, fmAmt=1, aAtk= 0.4, aDec=4, fmAtk = 0.1, fmDec = 0.2, pan=0, mVol = 1.0, glide=0, gate=1;
 		var osc, ampEnv, fmEnv, sig;
-		osc = SinOsc.ar(oFreq, SinOsc.ar((oFreq * fmMult), 0, fmAmt), mul: 1);
+	    oFreq = Lag.kr(oFreq, glide);
 		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 2);
-		fmEnv = EnvGen.kr(Env.new([0,1,0], fmAtk, fmDec), gate);
+		//fmEnv = EnvGen.kr(Env.new([0,1,0], fmAtk, fmDec), gate);
+	    osc = SinOsc.ar(oFreq, SinOsc.ar((oFreq * fmMult), 0, fmAmt), mul: 1);
 		sig = Out.ar(out, Pan2.ar((osc * ampEnv) * mVol, pan));
 	}).add;
 
@@ -202,7 +234,7 @@ SynthDef(\scream,{
 	0.026215	,
 	0.025940	,
 	0.026138	,
-	0.026344	];
+	0.026344	] / (0.11787 * 0.97675);
 
 ~gtrBdecs = [	14.019150	,
 	15.593895	,
@@ -240,7 +272,7 @@ SynthDef(\scream,{
 
 
 SynthDef(\guitarLO,{
-		arg out = 1, oFreq=198, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.017, iDec=0.005, fFreq = 1000, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
+		arg out = 1, oFreq=198, aAmt=1, aAtk= 0.0002, aDec= 5, nAmt= 0.2, iAtk = 0.017, iDec=0.005, fFreq = 1000, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 2, gate=1;
 		var osc, ampEnv, impEnv, ampExp, decExp, hit, bow, pick, filt, sig;
 		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 2);
 		impEnv = EnvGen.kr(Env.new([0, hVol, 0], [iAtk, iDec]));
@@ -252,21 +284,22 @@ SynthDef(\guitarLO,{
 		filt = RLPF.ar(RHPF.ar(osc * 0.004), 20000);
 		sig = Out.ar(out, Pan2.ar((mVol * ((filt + (0.01) * ampEnv))), pan));
 	}).add;
+
 SynthDef(\guitarHI,{
-		arg out = 1, oFreq=247, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.0017, iDec=0.00005, fFreq = 100, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
-		var osc, ampEnv, impEnv, hit, bow, pick, filt, sig, ampExp, decExp;
+		arg out = 1, oFreq=198, aAmt=1, aAtk= 0.0002, aDec= 5, nAmt= 0.2, iAtk = 0.017, iDec=0.005, fFreq = 1000, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 2, gate=1;
+		var osc, ampEnv, impEnv, ampExp, decExp, hit, bow, pick, filt, sig;
 		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 2);
 		impEnv = EnvGen.kr(Env.new([0, hVol, 0], [iAtk, iDec]));
 	    ampExp = Array.rand(32, expMin, expMax);
 	    decExp = Array.rand(32, expMin, expMax);
 		bow = RLPF.ar(WhiteNoise.ar(impEnv),fFreq);
-		pick = SinOsc.ar(oFreq/3 * (impEnv), 0, impEnv);
-	osc = Klank.ar(`[~gtrBfreqs * oFreq, ~gtrBamps * ampExp, ~gtrBdecs * decExp], (bow*0.5) /*+ pick*/ );
-		filt = RLPF.ar(RHPF.ar(osc * 0.01), 20000);
+		pick = SinOsc.ar(100 * (impEnv), 0, impEnv);
+		osc = Klank.ar(`[~gtrBfreqs * oFreq, ~gtrBamps * ampExp, ~gtrBdecs * decExp], bow + pick );
+		filt = RLPF.ar(RHPF.ar(osc * 0.004), 20000);
 		sig = Out.ar(out, Pan2.ar((mVol * ((filt + (0.01) * ampEnv))), pan));
 	}).add;
 
-// A STRING ////////////////////////////////////////////////////////////////////
+// piano C2////////////////////////////////////////////////////////////////////
 ~pnoC2freqs = [	1.000000	,
 	2	,
 	3	,

@@ -1,23 +1,20 @@
-SerialPort.stop;
 //followed SuperCollider Tutorial 19 from Eli Fieldsteel, Patron Saint of SuperCollider Tutorials
 ~serial_func = {
-
-~serial    = SerialPort.new("/dev/tty.usbserial-026019A3", 115200);
 
 // Global Variables
 //~timeInt     = 0.0001; // loop wait time in seconds
 ~uFac = -0.02; //factor by which to scale Ultrasound values for Organ Volume
 ~charArray   = [ ];
-~aVal        = 0;//ultrasonic 1
-~bVal        = 0;//ultrasonic 2
-~cVal        = 0;//ultrasonic 3
-~dVal        = 0;//ultrasonic 4
-~eVal        = 0;//ultrasonic 5
-~fVal        = 0;//ultrasonic 6
-~gVal        = 0;//SCD40 CO2
-~hVal        = 0;//SCD40 Humidity
-~iVal        = 0;//SCD40 Temperature
-~jVal        = 0;//Theremin Antenna
+~aVal        = 200;//ultrasonic 1
+~bVal        = 200;//ultrasonic 2
+~cVal        = 200;//ultrasonic 3
+~dVal        = 200;//ultrasonic 4
+~eVal        = 200;//ultrasonic 5
+~fVal        = 200;//ultrasonic 6
+~gVal        = 200;//SCD40 CO2
+~hVal        = 200;//SCD40 Humidity
+~iVal        = 200;//SCD40 Temperature
+~jVal        = 200;//Theremin Antenna
 
 ~co2Count = 1.5;
 ~humCount = 1.5;
@@ -69,11 +66,12 @@ SerialPort.stop;
 ~sensorTrack = Routine.new({
 	var asciiArr;
 	{
-		asciiArr = ~serial.read.asAscii;// read serial input
-		if(asciiArr.isDecDigit, {~charArray = ~charArray.add(asciiArr)});// add all digits to charArray
+		//asciiArr = ~serial.read.asAscii;// read serial input
+		//if(asciiArr.isDecDigit, {~charArray = ~charArray.add(asciiArr)});// add all digits to charArray
 
 		// Ultrasonic 1
-		if(asciiArr == $a, {~aVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $a, {
+			~aVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 
@@ -87,10 +85,11 @@ SerialPort.stop;
 			(~fmFac.getSynchronous * ~orgVolOne.getSynchronous).post;
 			//~orgVolOne.getSynchronous.postln;
 
-		});
+		//});
 
 		// Ultrasonic 2
-		if(asciiArr == $b, {~bVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $b, {
+			~bVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			" distance 2: ".post;
@@ -102,10 +101,11 @@ SerialPort.stop;
 
 			(~fmFac.getSynchronous * ~orgVolTwo.getSynchronous).post;
 
-		});
+		//});
 
 		// Ultrasonic 3
-		if(asciiArr == $c, {~cVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $c, {
+			~cVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			" distance 3: ".post;
@@ -117,10 +117,11 @@ SerialPort.stop;
 
 				(~fmFac.getSynchronous * ~orgVolTre.getSynchronous).post;
 
-		});
+		//});
 
 		// Ultrasonic 4
-		if(asciiArr == $d, {~dVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $d, {
+			~dVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			" distance 4: ".post;
@@ -131,10 +132,11 @@ SerialPort.stop;
 			});
 			(~fmFac.getSynchronous * ~orgVolFor.getSynchronous).post;
 
-		});
+		//});
 
 		// Ultrasonic 5
-		if(asciiArr == $e, {~eVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $e, {
+			~eVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			" distance 5: ".post;
@@ -144,10 +146,10 @@ SerialPort.stop;
 				}, {~orgSigFiv.set(\in, 0);
 			});
 				(~fmFac.getSynchronous * ~orgVolFiv.getSynchronous).post;
-		});
+		//});
 
 		// Ultrasonic 6
-		if(asciiArr == $f, {~fVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $f, {~fVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			" distance 6: ".post;
@@ -158,24 +160,24 @@ SerialPort.stop;
 			});
 
 			(~fmFac.getSynchronous * ~orgVolSix.getSynchronous).postln;
-		});
+		//});
 
 		////////////////////////////////
 		// SCD40 Environmental Sensor //
 		////////////////////////////////
 
 		// SCD40 CO2
-		if(asciiArr == $g, {~gVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $g, {~gVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			~co2Count = ~gVal / 3000.0;
 			" CO2: ".post;
 			~co2Count.post;
 
-		});
+		//});
 
 		// SCD40 Humidity
-		if(asciiArr == $h, {~hVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $h, {~hVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			~hVal = ~hVal / 100.0;
@@ -184,10 +186,10 @@ SerialPort.stop;
 			" Humidity: ".post;
 			~humCount.post;
 
-		});
+		//});
 
 		// SCD40 Temperature
-		if(asciiArr == $i, {~iVal = ~charArray.collect(_.digit).convertDigits;
+		//if(asciiArr == $i, {~iVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
 			~iVal = ~iVal / 100.0;
@@ -200,17 +202,17 @@ SerialPort.stop;
 			~headCount.postln;
 
 				//
-		});
+		//});
 
 		// Theremin Antenna
-		if(asciiArr == $j, {
+		//if(asciiArr == $j, {
 			//collect value
 			~jVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//value conditioning
-			~jVal = 0; // convert to value between 0.0 ~ 1.0
-				~screamVol = ~jVal;
-				~screamVol  = (~jVal - 0.25).clip(0, 1); //
+			//~jVal = 0; // convert to value between 0.0 ~ 1.0
+			//~screamVol = ~jVal;
+			~screamVol  = (~jVal - 0.25).clip(0, 1); //
 			//" Theremin: ".post;
 			//~jVal.postln;
 
@@ -226,7 +228,7 @@ SerialPort.stop;
 						~scream.set(\gate, 0, \aDec, 0.5);
 				});
 
-		});
+		//});
 	// timer
 	~timeInt.wait;
 	}.loop;
