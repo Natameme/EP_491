@@ -1,4 +1,3 @@
-SerialPort.stop;
 //followed SuperCollider Tutorial 19 from Eli Fieldsteel, Patron Saint of SuperCollider Tutorials
 ~serial_func = {
 
@@ -6,7 +5,6 @@ SerialPort.stop;
 
 // Global Variables
 //~timeInt     = 0.0001; // loop wait time in seconds
-~uFac = -0.02; //factor by which to scale Ultrasound values for Organ Volume
 ~charArray   = [ ];
 ~aVal        = 0;//ultrasonic 1
 ~bVal        = 0;//ultrasonic 2
@@ -22,18 +20,13 @@ SerialPort.stop;
 ~co2Count = 1.5;
 ~humCount = 1.5;
 ~temCount = 1.5;
-//~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
+~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
 
 	/////////////////////////////
 	// call modules to control //
 	/////////////////////////////
 
 ~scream = Synth(\scream, [\gate, 0, \mVol, 0]);
-
-	~fmFac = Bus.control(s, 1);
-	~fmSig = {arg in = 5;
-		Out.kr(~fmFac, Lag.kr(in, 3));
-		}.play;
 
 	~orgVolOne = Bus.control(s, 1);
 	~orgSigOne = {arg in = 0;
@@ -76,31 +69,20 @@ SerialPort.stop;
 		if(asciiArr == $a, {~aVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-
-
-			if(~aVal < 150, {
-			~orgSigOne.set(\in, (~aVal * ~uFac).dbamp);
-				}, {~orgSigOne.set(\in, 0);
-			});
-
-			" distance 1: ".post;
-			(~fmFac.getSynchronous * ~orgVolOne.getSynchronous).post;
-			//~orgVolOne.getSynchronous.postln;
-
+			//" distance 1: ".post;
+		    //~orgVolOne.getSynchronous.postln;
+				~aVal = (~aVal * -0.2).dbamp;
+				~orgSigOne.set(\in, ~aVal);
 		});
 
 		// Ultrasonic 2
 		if(asciiArr == $b, {~bVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 2: ".post;
+			//" distance 2: ".post;
 			//~bVal.post;
-			if(~bVal < 150, {
-			~orgSigTwo.set(\in, (~bVal * ~uFac).dbamp);
-				}, {~orgSigTwo.set(\in, 0);
-			});
-
-			(~fmFac.getSynchronous * ~orgVolTwo.getSynchronous).post;
+				~bVal = (~bVal * -0.2).dbamp;
+				~orgSigTwo.set(\in, ~bVal);
 
 		});
 
@@ -108,14 +90,10 @@ SerialPort.stop;
 		if(asciiArr == $c, {~cVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 3: ".post;
+			//" distance 3: ".post;
 			//~cVal.post;
-			if(~cVal < 150, {
-			~orgSigTre.set(\in, (~cVal * ~uFac).dbamp);
-				}, {~orgSigTre.set(\in, 0);
-			});
-
-				(~fmFac.getSynchronous * ~orgVolTre.getSynchronous).post;
+				~cVal = (~cVal * -0.2).dbamp;
+				~orgSigTre.set(\in, ~cVal);
 
 		});
 
@@ -123,13 +101,10 @@ SerialPort.stop;
 		if(asciiArr == $d, {~dVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 4: ".post;
+			//" distance 4: ".post;
 			//~dVal.post;
-				if(~dVal < 150, {
-			~orgSigFor.set(\in, (~dVal * ~uFac).dbamp);
-				}, {~orgSigFor.set(\in, 0);
-			});
-			(~fmFac.getSynchronous * ~orgVolFor.getSynchronous).post;
+				~dVal = (~dVal * -0.2).dbamp;
+				~orgSigFor.set(\in, ~dVal);
 
 		});
 
@@ -137,27 +112,21 @@ SerialPort.stop;
 		if(asciiArr == $e, {~eVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 5: ".post;
+			//" distance 5: ".post;
 			//~eVal.post;
-			if(~eVal < 150, {
-			~orgSigFiv.set(\in, (~eVal * ~uFac).dbamp);
-				}, {~orgSigFiv.set(\in, 0);
-			});
-				(~fmFac.getSynchronous * ~orgVolFiv.getSynchronous).post;
+
+				~eVal = (~eVal * -0.2).dbamp;
+				~orgSigFiv.set(\in, ~eVal);
 		});
 
 		// Ultrasonic 6
 		if(asciiArr == $f, {~fVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			" distance 6: ".post;
+			//" distance 6: ".post;
 			//~fVal.postln;
-			if(~fVal < 150, {
-			~orgSigSix.set(\in, (~fVal * ~uFac).dbamp);
-				}, {~orgSigSix.set(\in, 0);
-			});
-
-			(~fmFac.getSynchronous * ~orgVolSix.getSynchronous).postln;
+				~fVal = (~fVal * -0.2).dbamp;
+				~orgSigSix.set(\in, ~fVal);
 		});
 
 		////////////////////////////////
@@ -195,7 +164,7 @@ SerialPort.stop;
 			//post values
 			" Temperature: ".post;
 			~temCount.postln;
-			//~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
+			~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
 			"HeadCount: ".post;
 			~headCount.postln;
 
@@ -208,11 +177,11 @@ SerialPort.stop;
 			~jVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//value conditioning
-			~jVal = 0; // convert to value between 0.0 ~ 1.0
+			~jVal = ~jVal / 100; // convert to value between 0.0 ~ 1.0
 				~screamVol = ~jVal;
 				~screamVol  = (~jVal - 0.25).clip(0, 1); //
-			//" Theremin: ".post;
-			//~jVal.postln;
+			" Theremin: ".post;
+			~jVal.postln;
 
 				// set mod params
 				~scream.set(\mVol, ~screamVol, \fmMult, (~jVal * 50),\fmAmt, ~jVal*40, );
@@ -233,6 +202,4 @@ SerialPort.stop;
 }).play;
 
 };
-
-
 
