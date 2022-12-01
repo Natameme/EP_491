@@ -1,13 +1,13 @@
 
 // ---------------------------------------------------------------- //
-// Sensor Reader for Public Private Personal
+// Sensor Reader for Being in the Way
 // Written by Natalie Hogue with the help of some kind internet strangers who remain credited
 // ---------------------------------------------------------------- //
 // Arduino Ultrasoninc Sensor HC-SR04
 // Re-writed by Arbi Abdul Jabbaar
 // Expanded to Accomodate 4 sensors by Natalie Hogue
 // Using Arduino IDE 1.8.7
-// Using HC-SR04 Module, compatible with RCWL-1601 Moudle
+// Using HC-SR04 Module, compatible with RCWL-1601 Module
 // Tested on 17 September 2019
 // Updated by Natalie Hogue on 20 September 2022
 // ---------------------------------------------------------------- //

@@ -7,19 +7,13 @@ s.meter;
 s.boot.waitForBoot(onComplete: ~main.value, onFailure: "server boot fatal error, exited with code 1".postln);
 )
 
-~orgVol.asMap;
-~orgVolA
-/*
-~killSensors.value;
-
-~volArr;
-
-~path = PathName(thisProcess.nowExecutingPath).parentPath;
-*/
+~volFac = 0.05;
 
 ~mainLib.load;
 ~main.value;
 
+~uFac = -0.00001;
 
-~pnoVol = -36.dbamp;
-~gtrVol = -24.dbamp;
+~gtrVol = -6.dbamp;
+~pnoVol = -40.dbamp;
+~headCount = 3;

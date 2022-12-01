@@ -17,6 +17,9 @@
 ~iVal        = 0;//SCD40 Temperature
 ~jVal        = 0;//Theremin Antenna
 
+~volFac= 1;
+~fmFac = 20;
+~uFac = -0.1;
 ~co2Count = 1.5;
 ~humCount = 1.5;
 ~temCount = 1.5;
@@ -27,7 +30,7 @@
 	/////////////////////////////
 
 ~scream = Synth(\scream, [\gate, 0, \mVol, 0]);
-
+//VOLUME BUSSES
 	~orgVolOne = Bus.control(s, 1);
 	~orgSigOne = {arg in = 0;
 		Out.kr(~orgVolOne, Lag.kr(in, 3));
@@ -58,6 +61,36 @@
 		Out.kr(~orgVolSix, Lag.kr(in, 3));
 		}.play;
 
+//MODULATION BUSSES
+	~orgModOne = Bus.control(s, 1);
+	~orgMSigOne = {arg in = 0;
+		Out.kr(~orgModOne, Lag.kr(in, 5));
+		}.play;
+
+	~orgModTwo = Bus.control(s, 1);
+	~orgMSigTwo = {arg in = 0;
+		Out.kr(~orgModTwo, Lag.kr(in, 5));
+		}.play;
+
+	~orgModTre = Bus.control(s, 1);
+	~orgMSigTre = {arg in = 0;
+		Out.kr(~orgModTre, Lag.kr(in, 5));
+		}.play;
+
+	~orgModFor = Bus.control(s, 1);
+	~orgMSigFor = {arg in = 0;
+		Out.kr(~orgModFor, Lag.kr(in, 5));
+		}.play;
+
+	~orgModFiv = Bus.control(s, 1);
+	~orgMSigFiv = {arg in = 0;
+		Out.kr(~orgModFiv, Lag.kr(in, 5));
+		}.play;
+
+	~orgModSix = Bus.control(s, 1);
+	~orgMSigSix = {arg in = 0;
+		Out.kr(~orgModSix, Lag.kr(in, 5));
+		}.play;
 
 ~sensorTrack = Routine.new({
 	var asciiArr;
@@ -71,8 +104,16 @@
 			//condition values
 			//" distance 1: ".post;
 		    //~orgVolOne.getSynchronous.postln;
-				~aVal = (~aVal * -0.2).dbamp;
-				~orgSigOne.set(\in, ~aVal);
+				if(~aVal < 150, {
+				~aVal = (~aVal * ~uFac).dbamp.postln;
+				~orgSigOne.set(\in, ~aVal*~volFac);
+				~orgMSigOne.set(\in, ~aVal*~fmFac);
+				~gtrSig.set(\inOne, ~aVal);
+				}, {
+				~orgSigOne.set(\in, 0);
+				~orgMSigOne.set(\in, 0);
+				~gtrSig.set(\inOne, 0);
+			});
 		});
 
 		// Ultrasonic 2
@@ -81,9 +122,16 @@
 			//condition values
 			//" distance 2: ".post;
 			//~bVal.post;
-				~bVal = (~bVal * -0.2).dbamp;
-				~orgSigTwo.set(\in, ~bVal);
-
+				if(~bVal < 150, {
+				~bVal = (~bVal * ~uFac).dbamp;
+				~orgSigTwo.set(\in, ~bVal*~volFac);
+				~orgMSigTwo.set(\in, ~bVal*~fmFac);
+				~gtrSig.set(\inTwo, ~bVal);
+				} , {
+				~orgSigTwo.set(\in, 0);
+				~orgMSigTwo.set(\in, 0);
+				~gtrSig.set(\inTwo, 0)
+			});
 		});
 
 		// Ultrasonic 3
@@ -92,8 +140,15 @@
 			//condition values
 			//" distance 3: ".post;
 			//~cVal.post;
-				~cVal = (~cVal * -0.2).dbamp;
-				~orgSigTre.set(\in, ~cVal);
+				if(~cVal < 150, {
+				~cVal = (~cVal * ~uFac).dbamp;
+				~orgSigTre.set(\in, ~cVal*~volFac);
+				~orgMSigTre.set(\in, ~cVal*~fmFac);
+				~gtrSig.set(\inTre, ~cVal);
+				}, {~orgSigTre.set(\in, 0);
+					~orgMSigTre.set(\in, 0);
+					~gtrSig.set(\inTre, 0);
+				});
 
 		});
 
@@ -103,8 +158,15 @@
 			//condition values
 			//" distance 4: ".post;
 			//~dVal.post;
-				~dVal = (~dVal * -0.2).dbamp;
-				~orgSigFor.set(\in, ~dVal);
+				if(~dVal < 150, {
+				~dVal = (~dVal * ~uFac).dbamp;
+				~orgSigFor.set(\in, ~dVal*~volFac);
+				~orgMSigFor.set(\in, ~dVal*~fmFac);
+				~gtrSig.set(\inFor, ~dVal);
+				}, {~orgSigFor.set(\in, 0);
+					~orgMSigFor.set(\in, 0);
+					~gtrSig.set(\inFor, 0);
+				});
 
 		});
 
@@ -115,8 +177,15 @@
 			//" distance 5: ".post;
 			//~eVal.post;
 
-				~eVal = (~eVal * -0.2).dbamp;
-				~orgSigFiv.set(\in, ~eVal);
+				if(~eVal < 150, {
+				~eVal = (~eVal * ~uFac).dbamp;
+				~orgSigFiv.set(\in, ~eVal*~volFac);
+				~orgMSigFiv.set(\in, ~eVal*~fmFac);
+				~gtrSig.set(\inFiv, ~eVal);
+				}, {~orgSigFiv.set(\in, 0);
+					~orgMSigFiv.set(\in, 0);
+					~gtrSig.set(\inFiv, 0);
+				});
 		});
 
 		// Ultrasonic 6
@@ -125,8 +194,15 @@
 			//condition values
 			//" distance 6: ".post;
 			//~fVal.postln;
-				~fVal = (~fVal * -0.2).dbamp;
-				~orgSigSix.set(\in, ~fVal);
+				if(~fVal < 150, {
+				~fVal = (~fVal * ~uFac).dbamp;
+				~orgSigSix.set(\in, ~fVal*~volFac);
+				~orgMSigSix.set(\in, ~fVal*~fmFac);
+				~gtrSig.set(\inSix, ~fVal);
+				}, {~orgSigSix.set(\in, 0);
+					~orgMSigSix.set(\in, 0);
+					~gtrSig.set(\inSix, 0);
+				});
 		});
 
 		////////////////////////////////
@@ -180,8 +256,8 @@
 			~jVal = ~jVal / 100; // convert to value between 0.0 ~ 1.0
 				~screamVol = ~jVal;
 				~screamVol  = (~jVal - 0.25).clip(0, 1); //
-			" Theremin: ".post;
-			~jVal.postln;
+			//" Theremin: ".post;
+			//~jVal.postln;
 
 				// set mod params
 				~scream.set(\mVol, ~screamVol, \fmMult, (~jVal * 50),\fmAmt, ~jVal*40, );

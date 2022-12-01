@@ -1,9 +1,9 @@
 ~community = {
+///////////////
+// SECTION 1 //
+///////////////
+
 //phrase 1
-~clock = 1.7;
-~root = 261/2;
-~gtrVol = -12.dbamp;
-~pnoVol = -36.dbamp;
 ~guitarC2S1P1A = [
 	1  ,      9/8,         15/8,        1,
 	15/8,     9/8,         1,           15/8,
@@ -166,7 +166,7 @@
 		                     ],
 	                  \fFreq, 1000,
 	                  \aDec,  18,
-	                  \oFreq, Pseq([~orgC2S1P1], inf),
+	                  \oFreq, Pseq([~orgC2S1P1], 1),
 		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
 			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
@@ -331,17 +331,17 @@
 
 ~orgC2S1P2Seq = Pbind(\instrument, \fmSynth,
 	                  \dur, ~clock * 8,
-	                  /*\fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
+	                  \fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
 			                   ~orgModTre.asMap, ~orgModFor.asMap,
 			                   ~orgModFiv.asMap, ~orgModSix.asMap,
-		                     ],*/
+		                     ],
 	                  \fFreq, 1000,
 	                  \aDec,  18,
-	                  \oFreq, Pseq([~orgC2S1P2], inf),
-		              /*\mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+	                  \oFreq, Pseq([~orgC2S1P2], 1),
+		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
 			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
-		                     ],*/\mVol, 0.1,
+		                     ],
                    );
 
 
@@ -526,17 +526,17 @@
 
 ~orgC2S2P1Seq = Pbind(\instrument, \fmSynth,
 	                  \dur, ~clock * 8,
-	                  /*\fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
+	                  \fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
 			                   ~orgModTre.asMap, ~orgModFor.asMap,
 			                   ~orgModFiv.asMap, ~orgModSix.asMap,
-		                     ],*/
+		                     ],
 	                  \fFreq, 1000,
 	                  \aDec,  18,
 	                  \oFreq, Pseq([~orgC2S2P1], 1),
-		              /*\mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
 			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
-		                     ],*/\mVol, 0.1,
+		                     ],
                    );
 
 
@@ -691,17 +691,17 @@
 
 ~orgC2S3P1Seq = Pbind(\instrument, \fmSynth,
 	                  \dur, ~clock * 8,
-	                  /*\fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
+	                  \fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
 			                   ~orgModTre.asMap, ~orgModFor.asMap,
 			                   ~orgModFiv.asMap, ~orgModSix.asMap,
-		                     ],*/
+		                     ],
 	                  \fFreq, 1000,
 	                  \aDec,  18,
 	                  \oFreq, Pseq([~orgC2S3P1], 1),
-		              /*\mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
 			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
-		                     ],*/\mVol, 0.1,
+		                     ],
                    );
 
 //phrase 2
@@ -851,17 +851,17 @@
 
 ~orgC2S3P2Seq = Pbind(\instrument, \fmSynth,
 	                  \dur, ~clock * 8,
-	                  /*\fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
+	                  \fmAmt, [~orgModOne.asMap, ~orgModTwo.asMap,
 			                   ~orgModTre.asMap, ~orgModFor.asMap,
 			                   ~orgModFiv.asMap, ~orgModSix.asMap,
-		                     ],*/
+		                     ],
 	                  \fFreq, 1000,
 	                  \aDec,  18,
 	                  \oFreq, Pseq([~orgC2S3P2], 1),
-		              /*\mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
 			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
-		                     ],*/\mVol, 0.1,
+		                     ],
                    );
 
 };

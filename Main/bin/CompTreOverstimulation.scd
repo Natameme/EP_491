@@ -1,14 +1,7 @@
 ~overstimulation = {
 //OVERSTIMULATION SECTION 1 //
-~clock = 60/120;
-~root = 261;
-~pnoVol = -16.dbamp;
-~gtrVol = -12.dbamp;
-~orgTest = -32.dbamp;
-~flueVol = -12.dbamp;
 
-
-~pnoC3S1P1A = Pbind(\oFreq, Pbrown(~root*0.5, ~root * 2, ~root/2, 11),
+~pnoC3S1P1ASeq = Pbind(\oFreq, Pbrown(~root*0.5, ~root * 2, ~root/2, 11),
 	                  \instrument, Pif(
 		            Pkey(\oFreq) >= 128.0, \PianoC4,
 		         Pif(
@@ -19,10 +12,10 @@
 	                  \aDec,  2,
 	                  \pan, Pwhite(0, 1, inf),
 	                  \mVol, ~pnoVol;
-                   ).play;
+                   );
 
 
-~pnoC3S1P1B = Pbind(\oFreq, Pbrown(~root*1, ~root * 4, ~root/2, 11),
+~pnoC3S1P1BSeq = Pbind(\oFreq, Pbrown(~root*1, ~root * 4, ~root/2, 11),
 	                  \instrument, Pif(
 		            Pkey(\oFreq) >= 128.0, \PianoC4,
 		         Pif(
@@ -33,10 +26,10 @@
 	                  \aDec,  2,
 	                  \pan, Pwhite(0, -1, inf),
 	                  \mVol, ~pnoVol;
-                   ).play;
+                   );
 
 
-~pnoC3S1P1C = Pbind(\oFreq, Pbrown(~root*2, ~root * 8, ~root/2, 8),
+~pnoC3S1P1CSeq = Pbind(\oFreq, Pbrown(~root*2, ~root * 8, ~root/2, 8),
 	                  \instrument, Pif(
 		            Pkey(\oFreq) >= 128.0, \PianoC4,
 		         Pif(
@@ -47,10 +40,10 @@
 	                  \aDec,  2,
 	                  \pan, Pwhite(1, -1, inf),
 	                  \mVol, ~pnoVol;
-                   ).play;
+                   );
 
 
-~pnoC3S1P1D = Pbind(\oFreq, Pseq([~root/4], 1),
+~pnoC3S1P1DSeq = Pbind(\oFreq, Pseq([~root/4], 1),
 	                  \instrument, Pif(
 		            Pkey(\oFreq) >= 128.0, \PianoC4,
 		         Pif(
@@ -60,7 +53,7 @@
 	                  \fFreq, 10000,
 	                  \aDec,  60,
 	                  \pan, 0,
-	                  \mVol, ~pnoVol*4;
+	                  \mVol, ~pnoVol;
                    );
 
 
@@ -69,7 +62,7 @@
 	(3/2).sqrt,
 	(3/2).sqrt*(3/2).sqrt ,
 	(3/2).sqrt*(3/2).sqrt*(3/2).sqrt
-]*~root/4, inf),
+	]*~root/4, 89),
 	                   \instrument, Pif(
 		            Pkey(\oFreq) >= 147.0, \guitarHI,
 		         Pif(
@@ -79,9 +72,12 @@
 	                   \hVol, Pwhite(3, 4, inf),
 	                   //\iAtk, 0.05,
 	                   \fFreq, 10000,
+	                   \expMin, 1,
+	                   \expMax, 5,
+	\aDec, 3,
                        \dur, Pwrand([0.75, 0.5] * ~clock, [10, 1].normalizeSum, 89),
-	                   \pan, 0.5,
-                       \mVol, ~gtrVol;
+	                   \pan, 0,
+                       \mVol, ~gtrVol*4;
                    );
 
 ~gtrC3S1P1BSeq = Pbind(\oFreq, Prand([
@@ -101,8 +97,8 @@
 	                   //\iAtk, 0.05,
 	                   \fFreq, 10000,
 	                   \dur, ~clock/4,
-	                   \pan, -0.5,
-                       \mVol, ~gtrVol;
+	                   \pan, 0,
+                       \mVol, ~gtrVol*8;
                    );
 
 ~orgC3S1P1 = [
