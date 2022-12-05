@@ -37,7 +37,9 @@
 	    compOneSecOne, compOneSecTwo, compOneSecTre,
 		compTwoSecOne, compTwoSecTwo, compTwoSecTre;
 
-		main = Pwrand([1, 2, 3], [0, 1, 0], inf).asStream;
+		main = Pwrand([1, 2, 3], [((-1.0 * (~headCount - 1).squared)+1.0).clip(0, 1),
+			                      ((-1.0 * (~headCount - 2).squared)+1.0).clip(0, 1),
+			                      ((-1.0 * (~headCount - 3).squared)+1.0).clip(0, 1)], inf).asStream;
 		"main: ".post;
 		main.next.postln;
 

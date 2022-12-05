@@ -16,4 +16,4 @@ s.boot.waitForBoot(onComplete: ~main.value, onFailure: "server boot fatal error,
 
 ~gtrVol = -6.dbamp;
 ~pnoVol = -40.dbamp;
-~headCount = 3;
+~headCount = 2;

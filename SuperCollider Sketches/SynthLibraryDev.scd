@@ -240,7 +240,7 @@ SynthDef(\scream,{
 
 
 SynthDef(\guitarLO,{
-		arg out = 1, oFreq=198, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.017, iDec=0.005, fFreq = 1000, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
+	arg out = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], space = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], oFreq=198, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.017, iDec=0.005, fFreq = 1000, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
 		var osc, ampEnv, impEnv, ampExp, decExp, hit, bow, pick, filt, sig;
 		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 2);
 		impEnv = EnvGen.kr(Env.new([0, hVol, 0], [iAtk, iDec]));
@@ -250,10 +250,10 @@ SynthDef(\guitarLO,{
 		pick = SinOsc.ar(100 * (impEnv), 0, impEnv);
 		osc = Klank.ar(`[~gtrAfreqs * oFreq, ~gtrAamps * ampExp, ~gtrAdecs * decExp], bow + pick );
 		filt = RLPF.ar(RHPF.ar(osc * 0.004), 20000);
-		sig = Out.ar(out, Pan2.ar((mVol * ((filt + (0.01) * ampEnv))), pan));
+		sig = Out.ar(out, (space * mVol * ((filt + (0.01) * ampEnv))));
 	}).add;
 SynthDef(\guitarHI,{
-		arg out = 1, oFreq=247, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.0017, iDec=0.00005, fFreq = 100, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
+	arg out = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], space = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], oFreq=247, aAmt=1, aAtk= 0.0002, aDec= 5.98, nAmt= 0.2, iAtk = 0.0017, iDec=0.00005, fFreq = 100, pan= 0, mVol = 0.5, hVol = 5, expMin = 1, expMax = 1.3, gate=1;
 		var osc, ampEnv, impEnv, hit, bow, pick, filt, sig, ampExp, decExp;
 		ampEnv = EnvGen.kr(Env.new([0,aAmt,0], [aAtk,aDec]), gate, doneAction: 2);
 		impEnv = EnvGen.kr(Env.new([0, hVol, 0], [iAtk, iDec]));
@@ -263,7 +263,7 @@ SynthDef(\guitarHI,{
 		pick = SinOsc.ar(oFreq/3 * (impEnv), 0, impEnv);
 	osc = Klank.ar(`[~gtrBfreqs * oFreq, ~gtrBamps * ampExp, ~gtrBdecs * decExp], (bow*0.5) /*+ pick*/ );
 		filt = RLPF.ar(RHPF.ar(osc * 0.01), 20000);
-		sig = Out.ar(out, Pan2.ar((mVol * ((filt + (0.01) * ampEnv))), pan));
+		sig = Out.ar(out, (space * mVol * ((filt + (0.01) * ampEnv))));
 	}).add;
 
 // A STRING ////////////////////////////////////////////////////////////////////
