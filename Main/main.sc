@@ -48,7 +48,7 @@ Routine({
 //Load Composition
 ~compLib = (~path++"bin/Composition.scd");
 ~compLib.load;
-~comp_func.play ;
+~comp_func.value;
 
 }).play;
 };

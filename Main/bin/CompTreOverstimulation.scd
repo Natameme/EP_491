@@ -116,7 +116,10 @@
 	                  \aAtk, 12,
 	                  \aDec,  12,
 	                  \oFreq, Pseq([~orgC3S1P1], 1),
-	                  \mVol, [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
+			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
+			                  ~orgVolFiv.asMap, ~orgVolSix.asMap,
+		                     ];
                    );
 
 

@@ -43,10 +43,10 @@
 	                  \dur, ~clock / 3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap;
                    );
 
-~gtrC1S1P1Seq = Pbind(\oFreq, Prand(~gtrC1S1P1, inf),
+~gtrC1S1P1Seq = Pbind(\oFreq, Prand(~gtrC1S1P1, 1),
 	                   \instrument, Pif(
 		            Pkey(\oFreq) >= 198, \guitarHI,
 		         Pif(
@@ -58,7 +58,7 @@
 	                   \expMax, 19,
 	                   \fFreq, 20000,
 	                   \dur, ~clock / 4,
-	                   \mVol, ~gtrVol,
+	                   \mVol, ~volEnv.asMap,
 	                   \pan, 0;
                    );
 
@@ -70,7 +70,7 @@
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
 	                  \fFreq, 5000,
-	                  \aDec,  4,
+	                  \aDec,  ~clock * 4,
 	                  \oFreq, Pseq(~orgC1S1P1, 1),
 		              \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
@@ -125,7 +125,7 @@
 	                  \dur, ~clock/3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                   \mVol, ~pnoVol;
+	                   \mVol, ~volEnv.asMap;
                    );
 
 ~gtrC1S1P2Seq = Pbind(\oFreq, Pwrand(~gtrC1S1P2, [3, 1].normalizeSum, 4),
@@ -150,7 +150,7 @@
 			                  ~orgModTre.asMap, ~orgModFor.asMap,
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
-	                  \aDec,  4,
+	                  \aDec,  ~clock * 4,
 	                  \oFreq, Pseq(~orgC1S1P2, 1),
 	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
@@ -208,7 +208,7 @@
 	                  \dur, ~clock / 3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                   \mVol, ~pnoVol;
+	                   \mVol, ~volEnv.asMap;
                    );
 
 ~gtrC1S1P3Seq = Pbind(\oFreq, Pwrand(~gtrC1S1P3, [3, 2].normalizeSum, 4),
@@ -233,7 +233,7 @@
 			                  ~orgModTre.asMap, ~orgModFor.asMap,
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
-	                  \aDec,  4,
+	                  \aDec,  ~clock * 4,
 	                  \oFreq, Prand(~orgC1S1P3, 1),
 	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
@@ -248,7 +248,7 @@
 
 //Phrase 1
 ~pnoC1S2P1A = [// 1m6 > 7 neutral
-		        1,   3/2, 8/5,  19/4,
+		        1,   3/2, 8/5,  19/8,
 			    8/5, 3/2, 19/8, 3/2,
 			// 7 neutral
 			    (15/16),
@@ -335,7 +335,7 @@
 	                  \dur, ~clock/3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                   \mVol, ~pnoVol;
+	                   \mVol, ~volEnv.asMap;
                    );
 
 ~gtrC1S2P1Seq = Pbind(\oFreq, Pseq([Pwrand(~gtrC1S2P1A,  [3, 2, 1].normalizeSum, 4),
@@ -361,7 +361,7 @@
 			                  ~orgModTre.asMap, ~orgModFor.asMap,
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
-	                  \aDec,  8,
+	                  \aDec,  ~clock * 8,
 	                  \oFreq, Pseq(~orgC1S2P1, 1),
 	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
@@ -429,7 +429,7 @@
 	                  \dur, ~clock/3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                   \mVol, ~pnoVol;
+	                   \mVol, ~volEnv.asMap;
                    );
 
 ~gtrC1S2P2Seq = Pbind(\oFreq, Pseq([Pwrand(~gtrC1S2P2A,  [2, 3].normalizeSum, 4),
@@ -455,7 +455,7 @@
 			                  ~orgModTre.asMap, ~orgModFor.asMap,
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
-	                  \aDec,  8,
+	                  \aDec,  ~clock * 8,
 	                  \oFreq, Pseq(~orgC1S2P2, 1),
 	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,
@@ -532,7 +532,7 @@
 	                  \dur, ~clock/3,
 	                  \fFreq, 5000,
 	                  \aDec,  2,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 
@@ -560,7 +560,7 @@
 			                  ~orgModTre.asMap, ~orgModFor.asMap,
 			                  ~orgModFiv.asMap, ~orgModSix.asMap,
 		                     ],
-	                  \aDec,  8,
+	                  \aDec,  ~clock * 8,
 	                  \oFreq, Pseq(~orgC1S3P1, 1),
 	                  \mVol, [~orgVolOne.asMap, ~orgVolTwo.asMap,
 			                  ~orgVolTre.asMap, ~orgVolFor.asMap,

@@ -113,7 +113,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol,  ~pnoVol;
+	                  \mVol,  ~volEnv.asMap;
                    );
 
 ~pnoC2S1P1BSeq = Pbind(\oFreq, Pseq(~pnoC2S1P1B, 1),
@@ -127,7 +127,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S1P1CSeq = Pbind(\oFreq, Pseq(~pnoC2S1P1C, 4),
@@ -141,7 +141,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.01,
 	                  \expMax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S1P1DSeq = Pbind(\oFreq, Pseq(~pnoC2S1P1D, 1),
@@ -155,7 +155,7 @@
 	                  \expMin, 0.01,
 	                  \expMax, 4,
 	                  \aDec, ~clock*2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap,
                      );
 
 ~orgC2S1P1Seq = Pbind(\instrument, \fmSynth,
@@ -284,7 +284,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol,  ~pnoVol;
+	                  \mVol,  ~volEnv.asMap;
                    );
 
 ~pnoC2S1P2BSeq = Pbind(\oFreq, Pseq(~pnoC2S1P2B, 1),
@@ -298,7 +298,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S1P2CSeq = Pbind(\oFreq, Pseq(~pnoC2S1P2C, 1),
@@ -312,7 +312,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.01,
 	                  \expMax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S1P2DSeq = Pbind(\oFreq, Pseq(~pnoC2S1P2D, 1),
@@ -326,7 +326,7 @@
 	                  \expMin, 0.01,
 	                  \expMax, 4,
 	                  \aDec, ~clock*2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap,
                      );
 
 ~orgC2S1P2Seq = Pbind(\instrument, \fmSynth,
@@ -479,7 +479,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol,  ~pnoVol;
+	                  \mVol,  ~volEnv.asMap;
                    );
 
 ~pnoC2S2P1BSeq = Pbind(\oFreq, Pseq(~pnoC2S2P1B, 1),
@@ -493,7 +493,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S2P1CSeq = Pbind(\oFreq, Pseq(~pnoC2S2P1C, 1),
@@ -507,7 +507,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.01,
 	                  \expMax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S2P1DSeq = Pbind(\oFreq, Pseq(~pnoC2S2P1D, 1),
@@ -521,7 +521,7 @@
 	                  \expMin, 0.01,
 	                  \expMax, 4,
 	                  \aDec, ~clock*2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap,
                      );
 
 ~orgC2S2P1Seq = Pbind(\instrument, \fmSynth,
@@ -644,7 +644,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol,  ~pnoVol;
+	                  \mVol,  ~volEnv.asMap;
                    );
 
 ~pnoC2S3P1BSeq = Pbind(\oFreq, Pseq(~pnoC2S3P1B, 1),
@@ -658,7 +658,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S3P1CSeq = Pbind(\oFreq, Pseq(~pnoC2S3P1C, 1),
@@ -672,7 +672,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.01,
 	                  \expMax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S3P1DSeq = Pbind(\oFreq, Pseq(~pnoC2S3P1D, 1),
@@ -686,7 +686,7 @@
 	                  \expMin, 0.01,
 	                  \expMax, 4,
 	                  \aDec, ~clock*2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap,
                      );
 
 ~orgC2S3P1Seq = Pbind(\instrument, \fmSynth,
@@ -804,7 +804,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol,  ~pnoVol;
+	                  \mVol,  ~volEnv.asMap;
                    );
 
 ~pnoC2S3P2BSeq = Pbind(\oFreq, Pseq(~pnoC2S3P2B, 1),
@@ -818,7 +818,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.3,
 	                  \expmax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S3P2CSeq = Pbind(\oFreq, Pseq(~pnoC2S3P2C, 1),
@@ -832,7 +832,7 @@
 	                  \aDec,  ~clock*2,
 	                  \expMin, 0.01,
 	                  \expMax, 4,
-	                  \mVol, ~pnoVol;
+	                  \mVol, ~volEnv.asMap;
                    );
 
 ~pnoC2S3P2DSeq = Pbind(\oFreq, Pseq(~pnoC2S3P2D, 1),
@@ -846,7 +846,7 @@
 	                  \expMin, 0.01,
 	                  \expMax, 4,
 	                  \aDec, ~clock*2,
-	                  \mVol, ~pnoVol,
+	                  \mVol, ~volEnv.asMap,
                      );
 
 ~orgC2S3P2Seq = Pbind(\instrument, \fmSynth,

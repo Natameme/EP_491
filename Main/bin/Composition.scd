@@ -5,17 +5,18 @@
 
 ~comp_func = {
 ~clock = 60/60;
-~clock.postln;
 ~root = 247;
+~clock.postln;
 
 ~pnoVol = -36.dbamp;
 ~gtrVol = -12.dbamp;
 
 ~volEnv = Bus.control(s, 1);
-	~volSig = {arg inOne = 0, inTwo = 0, inTre = 0, inFor = 0, inFiv = 0, inSix = 0;
-		Out.kr(~volEnv, Lag.kr(((inOne + inTwo + inTre + inFor + inFiv + inSix)), 600));
+	~volSig = {arg inOne = 0.0, inTwo = 0.0, inTre = 0.0, inFor = 0.0, inFiv = 0.0, inSix = 0.0, lag = 60;
+		var vol, sig;
+		vol = ((inOne + inTwo + inTre + inFor + inFiv + inSix)/24);
+		sig = Out.kr(~volEnv, Lag.kr(vol, lag));
 		}.play;
-
 
 ~compOne = (~path++"bin/CompOneIsolation.scd");
 ~compOne.load;
@@ -37,25 +38,30 @@
 	    compOneSecOne, compOneSecTwo, compOneSecTre,
 		compTwoSecOne, compTwoSecTwo, compTwoSecTre;
 
-		main = Pwrand([1, 2, 3], [((-1.0 * (~headCount - 1).squared)+1.0).clip(0, 1),
-			                      ((-1.0 * (~headCount - 2).squared)+1.0).clip(0, 1),
-			                      ((-1.0 * (~headCount - 3).squared)+1.0).clip(0, 1)], inf).asStream;
+
+
+		main = Pif(~headCount <= 1.0, main = 1,
+			       Pif(~headCount <= 2.0, main = 2,
+				       Pif(~headCount <= 3.0, main = 3))).asStream;
 		"main: ".post;
 		main.next.postln;
 
 	if(main.next == 1, {
 
-	compOne = Pwrand([1, 2, 3], [1, 0, 0].normalizeSum, inf).asStream;
+	compOne = Pwrand([1, 2, 3], [10, 2, 1].normalizeSum, inf).asStream;
 	"Comp One Section  ".post;
 	compOne.next.postln;
 
 	if(compOne.next == 1, {
+	~root = 247;
+	~clock = 1/~headCount;
+	~isolation.value;
 
 	///////////////
 	// SECTION 1 //
 	///////////////
 
-	compOneSecOne = Pwrand([1, 2, 3], [1, 0, 0].normalizeSum, inf).asStream;
+	compOneSecOne = Pwrand([1, 2, 3], [1, 1, 1].normalizeSum, inf).asStream;
 
 	"Comp 1 Section 1 Phrase ".post;
 	compOneSecOne.next.postln;
@@ -68,7 +74,7 @@
 			~gtrC1S1P1Seq.play;
 			~orgC1S1P1Seq.play;
     		(~pnoC1S1P1A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
     	});
 
@@ -80,7 +86,7 @@
 			~gtrC1S1P2Seq.play;
 			~orgC1S1P2Seq.play;
     		(~pnoC1S1P2A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
     	});
 
@@ -92,7 +98,7 @@
 		   ~gtrC1S1P3Seq.play;
 		   ~orgC1S1P3Seq.play;
     		(~pnoC1S1P3A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
     	});
 	// end of Section 1
@@ -117,7 +123,7 @@
 			~gtrC1S2P1Seq.play;
 			~orgC1S2P1Seq.play;
     		(~pnoC1S2P1A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
     	});
 
@@ -129,7 +135,7 @@
 			~gtrC1S2P2Seq.play;
 			~orgC1S2P2Seq.play;
     		(~pnoC1S2P1A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
     	});
 		// end of Section 2
@@ -149,7 +155,7 @@
 		   ~pnoC1S3P1CSeq.play;
 		   ~gtrC1S3P1Seq.play;
     		(~pnoC1S3P1A.size * ~clock).wait;
-			~clock = 2.5/~headCount;
+			~clock = 1/~headCount;
 			~isolation.value;
 			});
 // end of Isolation
@@ -162,7 +168,9 @@
 
 	if(main.next == 2, {
 			~root = 261/2;
+			~clock = 3.5/~headCount;
 			~pnoVol = -40.dbamp;
+			~community.value;
 			compTwo = Pwrand([1, 2, 3], [10, 2, 1].normalizeSum, inf).asStream;
 			"comp Two Section:".post;
 			compTwo.next.post;
@@ -174,6 +182,8 @@
 				compTwoSecOne.next.postln;
 
 				if(compTwoSecOne.next == 1, {
+					~root = 261/2;
+			        ~clock = 3.5/~headCount;
 					~gtrC2S1P1ASeq.play;
 					~gtrC2S1P1BSeq.play;
 					~pnoC2S1P1ASeq.play;
@@ -182,11 +192,13 @@
 					~pnoC2S1P1DSeq.play;
 					~orgC2S1P1Seq.play;
 					(~guitarC2S1P1C.size * ~clock/8).wait;
-					~clock = 3.5/2;
+					//~clock = 3.5/~headCount;
 					~community.value;
 				});
 
 				if(compTwoSecOne.next == 2, {
+					~root = 261/2;
+			        ~clock = 3.5/~headCount;
 					~gtrC2S1P2ASeq.play;
 					~gtrC2S1P2BSeq.play;
 					~pnoC2S1P2ASeq.play;
@@ -195,13 +207,15 @@
 					~pnoC2S1P2DSeq.play;
 					~orgC2S1P2Seq.play;
 					(~guitarC2S2P1A.size * ~clock/8).wait;
-					~clock = 3.5/2;
+					//~clock = 3.5/~headCount;
 					~community.value;
 				});
 			// end of comp two section one
 			});
 
 			if(compTwo.next == 2, {
+				~root = 261/2;
+			    ~clock = 3.5/~headCount;
 				~gtrC2S2P1ASeq.play;
 				~gtrC2S2P1BSeq.play;
 				~pnoC2S2P1ASeq.play;
@@ -210,7 +224,7 @@
 				~pnoC2S2P1DSeq.play;
 				~orgC2S2P1Seq.play;
 				(~guitarC2S2P1A.size * ~clock/8).wait;
-				~clock = 3.5/2;
+				//~clock = 3.5/~headCount;
 				~community.value;
 
 			});
@@ -220,6 +234,8 @@
 				compTwoSecTre == Pwrand([1, 2], [1, 1].normalizeSum, inf).asStream;
 
 				if(compTwoSecTre.next == 1, {
+					~root = 261/2;
+			        ~clock = 3.5/~headCount;
 					~gtrC2S3P1ASeq.play;
 					~gtrC2S3P1BSeq.play;
 					~pnoC2S3P1ASeq.play;
@@ -228,12 +244,14 @@
 					~pnoC2S3P1DSeq.play;
 					~orgC2S3P1Seq.play;
 					(~guitarC2S3P1A.size * ~clock/8).wait;
-					~clock = 3.5/2;
+					//~clock = 3.5/~headCount;
 				    ~community.value;
 
 				});
 
 				if(compTwoSecTre.next == 2, {
+					~root = 261/2;
+			        ~clock = 3.5/~headCount;
 					~gtrC2S3P2ASeq.play;
 					~gtrC2S3P2BSeq.play;
 					~pnoC2S3P2ASeq.play;
@@ -242,7 +260,7 @@
 					~pnoC2S3P2DSeq.play;
 					~orgC2S3P2Seq.play;
 					(~guitarC2S3P2A.size * ~clock/8).wait;
-					~clock = 3.5/2;
+					//~clock = 3.5/~headCount;
 				    ~community.value;
 				});
 
@@ -252,8 +270,10 @@
 	});
 
 		if(main.next == 3, {
-			~clock = 2/3;
+
+			~clock = 1.5/~headCount;
 			~overstimulation.value;
+
 			~pnoC3S1P1ASeq.play;
 			~pnoC3S1P1BSeq.play;
 			~pnoC3S1P1CSeq.play;

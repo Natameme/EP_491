@@ -17,13 +17,16 @@
 ~iVal        = 0;//SCD40 Temperature
 ~jVal        = 0;//Theremin Antenna
 
-~volFac= 1;
+~volFac= 0.8;
 ~fmFac = 20;
 ~uFac = -0.1;
 ~co2Count = 1.5;
 ~humCount = 1.5;
 ~temCount = 1.5;
-~headCount = (~co2Count + ~humCount + ~temCount) / 3.0;
+~isolCount = 0;
+~commCount = 0;
+~stimCount = 0;
+~headCount =(~co2Count + ~humCount + ~temCount) / 3.0;
 
 	/////////////////////////////
 	// call modules to control //
@@ -102,52 +105,82 @@
 		if(asciiArr == $a, {~aVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 1: ".post;
 		    //~orgVolOne.getSynchronous.postln;
 				if(~aVal < 150, {
-				~aVal = (~aVal * ~uFac).dbamp.postln;
+				//" distance 1: ".post;
+				~aVal = (~aVal * ~uFac).dbamp;
 				~orgSigOne.set(\in, ~aVal*~volFac);
 				~orgMSigOne.set(\in, ~aVal*~fmFac);
-				~gtrSig.set(\inOne, ~aVal);
-				}, {
+				});
+
+				if(~aVal > 150, {
 				~orgSigOne.set(\in, 0);
 				~orgMSigOne.set(\in, 0);
-				~gtrSig.set(\inOne, 0);
 			});
+
+				if(~aVal < 155, {
+				~aVal = (~aVal * ~uFac).dbamp;
+				~volSig.set(\inOne, -12.dbamp, \lag, 1800);
+				});
+
+				if(~aVal > 155, {
+				~volSig.set(\inOne, 0, \lag, 15);
+				});
 		});
 
 		// Ultrasonic 2
 		if(asciiArr == $b, {~bVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 2: ".post;
 			//~bVal.post;
 				if(~bVal < 150, {
+				//" distance 2: ".post;
 				~bVal = (~bVal * ~uFac).dbamp;
 				~orgSigTwo.set(\in, ~bVal*~volFac);
 				~orgMSigTwo.set(\in, ~bVal*~fmFac);
-				~gtrSig.set(\inTwo, ~bVal);
-				} , {
+				//~volSig.set(\inTwo, ~bVal);
+				});
+
+				if(~bVal > 150, {
 				~orgSigTwo.set(\in, 0);
 				~orgMSigTwo.set(\in, 0);
-				~gtrSig.set(\inTwo, 0)
+				//~volSig.set(\inTwo, 0)
 			});
+
+				if(~bVal < 155, {
+				~bVal = (~bVal * ~uFac).dbamp;
+				~volSig.set(\inTwo, -12.dbamp, \lag, 1800);
+				});
+
+				if(~bVal > 155, {
+				~volSig.set(\inTwo, 0, \lag, 15);
+				});
 		});
 
 		// Ultrasonic 3
 		if(asciiArr == $c, {~cVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 3: ".post;
 			//~cVal.post;
 				if(~cVal < 150, {
+				//" distance 3: ".post;
 				~cVal = (~cVal * ~uFac).dbamp;
 				~orgSigTre.set(\in, ~cVal*~volFac);
 				~orgMSigTre.set(\in, ~cVal*~fmFac);
-				~gtrSig.set(\inTre, ~cVal);
-				}, {~orgSigTre.set(\in, 0);
+				//~volSig.set(\inTre, ~cVal);
+				});
+
+				if(~cVal > 150, {~orgSigTre.set(\in, 0);
 					~orgMSigTre.set(\in, 0);
-					~gtrSig.set(\inTre, 0);
+					//~volSig.set(\inTre, 0);
+				});
+
+				if(~cVal < 155, {
+				~cVal = (~cVal * ~uFac).dbamp;
+					~volSig.set(\inTre,  -12.dbamp, \lag, 1800);
+				});
+				if(~cVal > 155, {
+				~volSig.set(\inTre, 0, \lag, 15);
 				});
 
 		});
@@ -156,16 +189,26 @@
 		if(asciiArr == $d, {~dVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 4: ".post;
 			//~dVal.post;
 				if(~dVal < 150, {
+				//" distance 4: ".post;
 				~dVal = (~dVal * ~uFac).dbamp;
 				~orgSigFor.set(\in, ~dVal*~volFac);
 				~orgMSigFor.set(\in, ~dVal*~fmFac);
-				~gtrSig.set(\inFor, ~dVal);
-				}, {~orgSigFor.set(\in, 0);
+				});
+
+				if(~dVal > 150, {
+					~orgSigFor.set(\in, 0);
 					~orgMSigFor.set(\in, 0);
-					~gtrSig.set(\inFor, 0);
+				});
+
+				if(~dVal < 155, {
+				~dVal = (~dVal * ~uFac).dbamp;
+				~volSig.set(\inFor,  -12.dbamp, \lag, 1800);
+				});
+
+				if(~dVal > 155, {
+				~volSig.set(\inFor, 0, \lag, 15);
 				});
 
 		});
@@ -174,17 +217,25 @@
 		if(asciiArr == $e, {~eVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 5: ".post;
 			//~eVal.post;
 
 				if(~eVal < 150, {
+				//" distance 5: ".post;
 				~eVal = (~eVal * ~uFac).dbamp;
 				~orgSigFiv.set(\in, ~eVal*~volFac);
 				~orgMSigFiv.set(\in, ~eVal*~fmFac);
-				~gtrSig.set(\inFiv, ~eVal);
-				}, {~orgSigFiv.set(\in, 0);
+				});
+				if(~eVal > 150, {
+					~orgSigFiv.set(\in, 0);
 					~orgMSigFiv.set(\in, 0);
-					~gtrSig.set(\inFiv, 0);
+				});
+
+				if(~eVal < 155, {
+				~eVal = (~eVal * ~uFac).dbamp;
+				~volSig.set(\inFiv,  -12.dbamp, \lag, 1800);
+				});
+				if(~eVal > 155, {
+				~volSig.set(\inFiv, 0, \lag, 15);
 				});
 		});
 
@@ -192,16 +243,27 @@
 		if(asciiArr == $f, {~fVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			//" distance 6: ".post;
+
 			//~fVal.postln;
 				if(~fVal < 150, {
+				//" distance 6: ".post;
 				~fVal = (~fVal * ~uFac).dbamp;
 				~orgSigSix.set(\in, ~fVal*~volFac);
 				~orgMSigSix.set(\in, ~fVal*~fmFac);
-				~gtrSig.set(\inSix, ~fVal);
-				}, {~orgSigSix.set(\in, 0);
+				});
+
+				if(~fVal > 150, {
+					~orgSigSix.set(\in, 0);
 					~orgMSigSix.set(\in, 0);
-					~gtrSig.set(\inSix, 0);
+				});
+
+				if(~fVal < 155, {
+				~fVal = (~fVal * ~uFac).dbamp;
+				~volSig.set(\inSix,  -12.dbamp, \lag, 1800);
+				});
+
+				if(~fVal > 155, {
+					~volSig.set(\inSix, 0, \lag, 15);
 				});
 		});
 
@@ -244,6 +306,8 @@
 			"HeadCount: ".post;
 			~headCount.postln;
 
+
+
 				//
 		});
 
@@ -272,6 +336,7 @@
 				});
 
 		});
+
 	// timer
 	~timeInt.wait;
 	}.loop;
