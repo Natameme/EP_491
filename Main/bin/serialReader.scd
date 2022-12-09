@@ -119,17 +119,19 @@
 			});
 
 				if(~aVal < 155, {
-				~aVal = (~aVal * ~uFac).dbamp;
-				~volSig.set(\inOne, -12.dbamp, \lag, 1800);
+				~aVal.postln;
+				~volSig.set(\inOne, -12.dbamp, \lag, 60);
+
+					if(~aVal < 140, {
+					~volSig.set(\inOne, 0, \lag, 15);
 				});
+			});
 
 				if(~aVal > 155, {
 				~volSig.set(\inOne, 0, \lag, 15);
-				});
+			});
 
-				if(~aVal < 150, {
-				~volSig.set(\inOne, 0, \lag, 15);
-				});
+
 		});
 
 		// Ultrasonic 2
@@ -152,17 +154,17 @@
 			});
 
 				if(~bVal < 155, {
-				~bVal = (~bVal * ~uFac).dbamp;
-				~volSig.set(\inTwo, -12.dbamp, \lag, 1800);
+				~volSig.set(\inTwo, -12.dbamp, \lag, 60);
+
+					if(~bVal < 140, {
+					~volSig.set(\inTwo, 0, \lag, 15);
 				});
+			});
 
 				if(~bVal > 155, {
 				~volSig.set(\inTwo, 0, \lag, 15);
-				});
+			});
 
-				if(~bVal < 150, {
-				~volSig.set(\inTwo, 0, \lag, 15);
-				});
 		});
 
 		// Ultrasonic 3
@@ -184,16 +186,17 @@
 				});
 
 				if(~cVal < 155, {
-				~cVal = (~cVal * ~uFac).dbamp;
-					~volSig.set(\inTre,  -12.dbamp, \lag, 1800);
+					~volSig.set(\inTre,  -12.dbamp, \lag, 60);
+					if(~cVal < 140, {
+						~volSig.set(\inTre, 0, \lag, 15);
 				});
+			});
+
 				if(~cVal > 155, {
 				~volSig.set(\inTre, 0, \lag, 15);
-				});
+			});
 
-				if(~cVal < 150, {
-				~volSig.set(\inTre, 0, \lag, 15);
-				});
+
 
 		});
 
@@ -215,17 +218,17 @@
 				});
 
 				if(~dVal < 155, {
-				~dVal = (~dVal * ~uFac).dbamp;
-				~volSig.set(\inFor,  -12.dbamp, \lag, 1800);
+				~volSig.set(\inFor,  -12.dbamp, \lag, 60);
+					if(~dVal < 140, {
+						~volSig.set(\inFor, 0, \lag, 15);
+					});
 				});
 
 				if(~dVal > 155, {
 				~volSig.set(\inFor, 0, \lag, 15);
-				});
+			});
 
-				if(~dVal < 150, {
-				~volSig.set(\inFor, 0, \lag, 15);
-				});
+
 
 		});
 
@@ -247,15 +250,17 @@
 				});
 
 				if(~eVal < 155, {
-				~eVal = (~eVal * ~uFac).dbamp;
-				~volSig.set(\inFiv,  -12.dbamp, \lag, 1800);
+				~volSig.set(\inFiv,  -12.dbamp, \lag, 60);
+
+					if(~eVal < 140, {
+					~volSig.set(\inSix, 0, \lag, 15);
 				});
+			});
+
 				if(~eVal > 155, {
 				~volSig.set(\inFiv, 0, \lag, 15);
-				});
-				if(~eVal < 150, {
-				~volSig.set(\inFiv, 0, \lag, 15);
-				});
+			});
+
 		});
 
 		// Ultrasonic 6
@@ -277,17 +282,18 @@
 				});
 
 				if(~fVal < 155, {
-				~fVal = (~fVal * ~uFac).dbamp;
-				~volSig.set(\inSix,  -12.dbamp, \lag, 1800);
+				~volSig.set(\inSix,  -12.dbamp, \lag, 60);
+
+					if(~fVal < 140, {
+					~volSig.set(\inSix, 0, \lag, 15);
 				});
+			});
 
 				if(~fVal > 155, {
 					~volSig.set(\inSix, 0, \lag, 15);
-				});
+			});
 
-				if(~fVal < 150, {
-					~volSig.set(\inSix, 0, \lag, 15);
-				});
+
 		});
 
 		////////////////////////////////
@@ -298,7 +304,7 @@
 		if(asciiArr == $g, {~gVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			~co2Count = ~gVal / 300.0;
+			~co2Count = ~gVal / 500.0;
 			" CO2: ".post;
 			~co2Count.post;
 
@@ -320,7 +326,7 @@
 		if(asciiArr == $i, {~iVal = ~charArray.collect(_.digit).convertDigits;
 			~charArray = [ ];
 			//condition values
-			~iVal = ~iVal / 100.0;
+			~iVal = ~iVal / 150.0;
 			~temCount = ~iVal / 10.0;
 			//post values
 			" Temperature: ".post;
