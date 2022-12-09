@@ -192,7 +192,7 @@
 					~pnoC2S1P1DSeq.play;
 					~orgC2S1P1Seq.play;
 					(~guitarC2S1P1C.size * ~clock/8).wait;
-					//~clock = 3.5/~headCount;
+					~clock = 3.5/~headCount;
 					~community.value;
 				});
 
@@ -207,7 +207,7 @@
 					~pnoC2S1P2DSeq.play;
 					~orgC2S1P2Seq.play;
 					(~guitarC2S2P1A.size * ~clock/8).wait;
-					//~clock = 3.5/~headCount;
+					~clock = 3.5/~headCount;
 					~community.value;
 				});
 			// end of comp two section one
@@ -224,7 +224,7 @@
 				~pnoC2S2P1DSeq.play;
 				~orgC2S2P1Seq.play;
 				(~guitarC2S2P1A.size * ~clock/8).wait;
-				//~clock = 3.5/~headCount;
+				~clock = 3.5/~headCount;
 				~community.value;
 
 			});
@@ -244,7 +244,7 @@
 					~pnoC2S3P1DSeq.play;
 					~orgC2S3P1Seq.play;
 					(~guitarC2S3P1A.size * ~clock/8).wait;
-					//~clock = 3.5/~headCount;
+					~clock = 3.5/~headCount;
 				    ~community.value;
 
 				});
@@ -260,7 +260,7 @@
 					~pnoC2S3P2DSeq.play;
 					~orgC2S3P2Seq.play;
 					(~guitarC2S3P2A.size * ~clock/8).wait;
-					//~clock = 3.5/~headCount;
+					~clock = 3.5/~headCount;
 				    ~community.value;
 				});
 

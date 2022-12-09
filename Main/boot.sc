@@ -19,3 +19,9 @@ s.boot.waitForBoot(onComplete: ~main.value, onFailure: "server boot fatal error,
 ~headCount = 2;
 
 ~volEnv.getSynchronous;
+
+(
+Server.killAll;
+SerialPort.closeAll;
+x.free
+)
