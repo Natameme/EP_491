@@ -1,9 +1,9 @@
 # BEING IN THE WAY
 ## a music and art installation by Natalie Hogue
 
-### Video Documentation
+### [Video Documentation](https://youtu.be/C0bO8Ad-irI)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/C0bO8Ad-irI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 ### Program Structure:
 
