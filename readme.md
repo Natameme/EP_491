@@ -55,4 +55,4 @@ All of the Synths (enclosed in /main/Synths/SynthLibrary.scd) were created using
 
 ### Questions
 
-if you have any questions about the project I can be reached at mach6mix@gmail.com I am more than happy to discuss use of this project elsewhere either as a complete installation piece or in adapting components of the project to other means. However, as outlined in the license for this project, I simply require consultation and consent before any part of this project is used elsewhere.
+if you have any questions about the project I can be reached at mach6mix@gmail.com I am more than happy to discuss use of this project elsewhere either as a complete installation piece or in adapting components of the project to other means. However, I require consultation and consent before any part of this project is used commercially elsewhere.
